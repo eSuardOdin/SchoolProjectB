@@ -16,6 +16,7 @@ Gestion d'un pédagogique d'un conservatoire, les données suivantes sont préex
 *Idées à la volées* :
 
 - Mettre en place des cours *non-obligatoires* par département et les ouvrir à des élèves d'autres départements ?
+- Mettre en place un système d'annonces ("On recherche n violonistes pour jouer tel répertoire")
 
 L'application doit pouvoir permettre :
 
