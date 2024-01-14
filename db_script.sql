@@ -38,6 +38,45 @@ CREATE TABLE Instruments (
     CHECK(famille_instrument IN('Cordes', 'Bois', 'Cuivres', 'Claviers', 'Percussions', 'Autre'))
 );
 --Insertion
+INSERT INTO Instruments(nom_instrument, famille_instrument) VALUES
+    -- Cordes
+    ('Violon', 'Cordes'),
+    ('Alto', 'Cordes'),
+    ('Violoncelle', 'Cordes'),
+    ('Contrebasse', 'Cordes'),
+    ('Harpe', 'Cordes'),
+    ('Guitare', 'Cordes'),
+    ('Guitare basse', 'Cordes'),
+    ('Luth', 'Cordes'),
+    -- Bois
+    ('Clarinette', 'Bois'),
+    ('Saxophone soprano', 'Bois'),
+    ('Saxophone alto', 'Bois'),
+    ('Saxophone ténor', 'Bois'),
+    ('Saxophone baryton', 'Bois'),
+    ('Flûte piccolo', 'Bois'),
+    ('Flûte traversière', 'Bois'),
+    ('Flûte à bec', 'Bois'),
+    ('Hautbois', 'Bois'),
+    ('Basson', 'Bois'),
+    -- Cuivres
+    ('Trompette', 'Cuivres'),
+    ('Trombonne', 'Cuivres'),
+    ('Cor', 'Cuivres'),
+    ('Tuba', 'Cuivres'),
+    -- Claviers
+    ('Piano', 'Claviers'),
+    ('Orgue', 'Claviers'),
+    ('Clavecin', 'Claviers'),
+    ('Accordéon', 'Claviers'),
+    -- Percussions
+    ('Percussions classiques', 'Percussions'),
+    ('Vibraphone', 'Percussions'),
+    ('Xylophone', 'Percussions'),
+    ('Marimba', 'Percussions'),
+    ('Batterie', 'Percussions');
+SELECT * FROM Instruments;
+
 
 --######################################################
 -- Table Instruments_Enseignés_Départements --
@@ -46,8 +85,18 @@ CREATE TABLE Instruments_Enseignés_Départements (
     id_département INTEGER NOT NULL,
     PRIMARY KEY (id_instrument, id_département),
     CONSTRAINT fk_instruments_enseignés_départements_instrument
-    FOREIGN KEY (id_instrument) REFERENCES Instruments(id_instrument),
+        FOREIGN KEY (id_instrument) REFERENCES Instruments(id_instrument)
+        ON DELETE CASCADE,
     CONSTRAINT fk_instruments_enseignés_départements_département
-    FOREIGN KEY (id_département) REFERENCES Départements(id_département),
+        FOREIGN KEY (id_département) REFERENCES Départements(id_département)
+        ON DELETE CASCADE
 );
+--Insertion
+INSERT INTO Instruments_Enseignés_Départements(id_instrument, id_département) VALUES
+-- Classique
+(1,1),(2,1),(3,1),(4,1),(5,1),(6,1),(9,1),(10,1),(11,1),(12,1),(13,1),(14,1),
+(15,1),(16,1),(17,1),(18,1),(19,1),(20,1),(21,1),(22,1),(23,1),(24,1),(25,1),
+(26,1),(27,1),(28,1),(29,1),(30,1),
+-- Jazz
+(4,2),(6,2),(7,2),(10,2),(11,2),(12,2),(15,2),(19,2),(20,2),(23,2),(26,2),(28,2),(31,2);
 
