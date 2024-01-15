@@ -137,11 +137,37 @@ CREATE TABLE Cycles (
     id_cycle INTEGER PRIMARY KEY AUTO_INCREMENT,
     nom_cycle VARCHAR(16) NOT NULL,
     id_département INTEGER NOT NULL,
-    CONSTRAINT salle_unique 
+    CONSTRAINT cycle_unique 
     	UNIQUE(id_département, nom_cycle),
     CONSTRAINT fk_cycles_départements
     	FOREIGN KEY(id_département) REFERENCES Départements(id_département)
 );
+--Insertion
+INSERT INTO Cycles (nom_cycle,id_département) VALUES
+('Cycle 1', 1),('Cycle 2', 1),('Cycle 3', 1),('Cycle Spécialisé', 1),
+('Cycle 1', 2),('Cycle 2', 2),('Cycle 3', 2),('Cycle Spécialisé', 2);
 
-
-
+--######################################################
+-- Table Utilisateurs --
+CREATE TABLE Utilisateurs (
+    id_utilisateur INTEGER PRIMARY KEY AUTO_INCREMENT,
+    nom_utilisateur VARCHAR(64) NOT NULL,
+    prénom_utilisateur VARCHAR(64) NOT NULL,
+    pwd_utilisateur VARCHAR(128) NOT NULL,
+    login_utilisateur VARCHAR(128) UNIQUE NOT NULL 
+);
+--Insertion
+INSERT INTO Utilisateurs(nom_utilisateur, prénom_utilisateur,pwd_utilisateur,login_utilisateur) VALUES
+('Dupont','Louis','1234','l.dupont');
+--######################################################
+-- Table Directeurs --
+CREATE TABLE Directeurs (
+    id_utilisateur INTEGER PRIMARY KEY,
+    id_pôle INTEGER NOT NULL,
+    CONSTRAINT fk_directeurs_utilisateurs
+    	FOREIGN KEY(id_utilisateur) REFERENCES Utilisateurs(id_utilisateur),
+    CONSTRAINT fk_directeurs_pôles
+    	FOREIGN KEY(id_pôle) REFERENCES Pôles(id_pôle)
+);
+--Insertion
+INSERT INTO Directeurs(id_utilisateur,id_pôle) VALUES (1,3);

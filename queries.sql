@@ -6,3 +6,7 @@ WHERE id_instrument IN(
     SELECT id_instrument FROM Instruments_Enseignés_Départements 
     WHERE id_département = 2
     );
+    
+-- Nom du directeur du pôle Musique    
+SELECT nom_utilisateur FROM Utilisateurs WHERE id_utilisateur = (SELECT id_utilisateur FROM Directeurs WHERE id_pôle =3);
+
