@@ -100,3 +100,48 @@ INSERT INTO Instruments_Enseignés_Départements(id_instrument, id_département)
 -- Jazz
 (4,2),(6,2),(7,2),(10,2),(11,2),(12,2),(15,2),(19,2),(20,2),(23,2),(26,2),(28,2),(31,2);
 
+--######################################################
+-- Table Salles --
+CREATE TABLE Salles (
+    id_salle INTEGER PRIMARY KEY AUTO_INCREMENT,
+    nom_salle VARCHAR(16) NOT NULL,
+    capacité_salle INTEGER NOT NULL,
+    id_pôle INTEGER NOT NULL,
+    CONSTRAINT salle_unique 
+    	UNIQUE(id_pôle, nom_salle),
+    CONSTRAINT fk_salles_pôles
+    	FOREIGN KEY(id_pôle) REFERENCES Pôles(id_pôle)
+);
+--Insertion
+INSERT INTO Salles (nom_salle, capacité_salle, id_pôle) VALUES
+('Auditorium A',100,3),
+('Auditorium B',120,3),
+('B01',15,3),
+('B02',10,3),
+('B03',20,3),
+('B04',10,3),
+('A01',30,3),
+('A02',35,3),
+('A03',25,3),
+('A04',20,3),
+('A05',30,3),
+('A06',10,3),
+('A07',20,3),
+('A08',10,3),
+('A09',5,3);
+
+
+--######################################################
+-- Table Cycles --
+CREATE TABLE Cycles (
+    id_cycle INTEGER PRIMARY KEY AUTO_INCREMENT,
+    nom_cycle VARCHAR(16) NOT NULL,
+    id_département INTEGER NOT NULL,
+    CONSTRAINT salle_unique 
+    	UNIQUE(id_département, nom_cycle),
+    CONSTRAINT fk_cycles_départements
+    	FOREIGN KEY(id_département) REFERENCES Départements(id_département)
+);
+
+
+
