@@ -1,6 +1,29 @@
+DROP TABLE IF EXISTS Professeurs;
+DROP TABLE IF EXISTS Directeurs;
+DROP TABLE IF EXISTS Utilisateurs;
 DROP TABLE IF EXISTS Départements;
 DROP TABLE IF EXISTS Pôles;
+DROP TABLE IF EXISTS Instruments;
+DROP TABLE IF EXISTS Instruments_Enseignés_Départements;
+DROP TABLE IF EXISTS Salles;
+DROP TABLE IF EXISTS Cycles;
 
+--######################################################
+-- Table Utilisateurs --
+CREATE TABLE Utilisateurs (
+    id_utilisateur INTEGER PRIMARY KEY AUTO_INCREMENT,
+    nom_utilisateur VARCHAR(64) NOT NULL,
+    prénom_utilisateur VARCHAR(64) NOT NULL,
+    pwd_utilisateur VARCHAR(128) NOT NULL,
+    login_utilisateur VARCHAR(128) UNIQUE NOT NULL 
+);
+--Insertion
+INSERT INTO Utilisateurs(nom_utilisateur, prénom_utilisateur,pwd_utilisateur,login_utilisateur) VALUES
+('Dupont','Louis','1234','l.dupont'), -- Directeur Musique
+('Redman','Joshua','1234','j.redman'), -- Chef Jazz
+('Rameau','Jean-Philippe','1234','jp.rameau'), -- Chef Baroque
+('Debussy','Claude','1234','c.debussy'), -- Chef Classique
+('Hamasyan','Tigran','1234','t.hamasyan'); -- Chef Actu
 --######################################################
 -- Table Pôles --
 CREATE TABLE Pôles (
@@ -11,6 +34,19 @@ CREATE TABLE Pôles (
 INSERT INTO Pôles (nom_pôle) VALUES ('Danse');
 INSERT INTO Pôles (nom_pôle) VALUES ('Théatre');
 INSERT INTO Pôles (nom_pôle) VALUES ('Musique');
+SELECT * FROM Pôles;
+--######################################################
+-- Table Directeurs --
+CREATE TABLE Directeurs (
+    id_utilisateur INTEGER PRIMARY KEY,
+    id_pôle INTEGER NOT NULL,
+    CONSTRAINT fk_directeurs_utilisateurs
+    	FOREIGN KEY(id_utilisateur) REFERENCES Utilisateurs(id_utilisateur),
+    CONSTRAINT fk_directeurs_pôles
+    	FOREIGN KEY(id_pôle) REFERENCES Pôles(id_pôle)
+);
+--Insertion
+INSERT INTO Directeurs(id_utilisateur,id_pôle) VALUES (1,3);
 
 --######################################################
 -- Table Départements --
@@ -18,14 +54,17 @@ CREATE TABLE Départements (
     id_département INTEGER PRIMARY KEY AUTO_INCREMENT,
     nom_département VARCHAR(64) UNIQUE NOT NULL,
     id_pôle INTEGER NOT NULL,
+    chef_département INTEGER NOT NULL,
     CONSTRAINT fk_départements_pôles
-    FOREIGN KEY(id_pôle) REFERENCES Pôles(id_pôle)  
+    FOREIGN KEY(id_pôle) REFERENCES Pôles(id_pôle),
+    CONSTRAINT fk_départements_utilisateurs
+    FOREIGN KEY(chef_département) REFERENCES Utilisateurs(id_utilisateur), 
 );
 --Insertion
-INSERT INTO Départements (nom_département, id_pôle) VALUES('Classique', 3);
-INSERT INTO Départements (nom_département, id_pôle) VALUES('Jazz', 3);
-INSERT INTO Départements (nom_département, id_pôle) VALUES('Baroque', 3);
-INSERT INTO Départements (nom_département, id_pôle) VALUES('Musiques actuelles', 3);
+INSERT INTO Départements (nom_département, id_pôle, chef_département) VALUES('Classique', 3, 4);
+INSERT INTO Départements (nom_département, id_pôle, chef_département) VALUES('Jazz', 3, 2);
+INSERT INTO Départements (nom_département, id_pôle, chef_département) VALUES('Baroque', 3, 3);
+INSERT INTO Départements (nom_département, id_pôle, chef_département) VALUES('Musiques actuelles', 3, 5);
 SELECT * FROM Départements;
 
 --######################################################
@@ -147,27 +186,17 @@ INSERT INTO Cycles (nom_cycle,id_département) VALUES
 ('Cycle 1', 1),('Cycle 2', 1),('Cycle 3', 1),('Cycle Spécialisé', 1),
 ('Cycle 1', 2),('Cycle 2', 2),('Cycle 3', 2),('Cycle Spécialisé', 2);
 
+/*
+ *
+ * UTILISATEURS Héritage 
+ *
+ */
+
+
+
+-- NEW !!
 --######################################################
--- Table Utilisateurs --
-CREATE TABLE Utilisateurs (
-    id_utilisateur INTEGER PRIMARY KEY AUTO_INCREMENT,
-    nom_utilisateur VARCHAR(64) NOT NULL,
-    prénom_utilisateur VARCHAR(64) NOT NULL,
-    pwd_utilisateur VARCHAR(128) NOT NULL,
-    login_utilisateur VARCHAR(128) UNIQUE NOT NULL 
-);
---Insertion
-INSERT INTO Utilisateurs(nom_utilisateur, prénom_utilisateur,pwd_utilisateur,login_utilisateur) VALUES
-('Dupont','Louis','1234','l.dupont');
---######################################################
--- Table Directeurs --
-CREATE TABLE Directeurs (
+-- Table Professeurs --
+CREATE TABLE Professeurs(
     id_utilisateur INTEGER PRIMARY KEY,
-    id_pôle INTEGER NOT NULL,
-    CONSTRAINT fk_directeurs_utilisateurs
-    	FOREIGN KEY(id_utilisateur) REFERENCES Utilisateurs(id_utilisateur),
-    CONSTRAINT fk_directeurs_pôles
-    	FOREIGN KEY(id_pôle) REFERENCES Pôles(id_pôle)
 );
---Insertion
-INSERT INTO Directeurs(id_utilisateur,id_pôle) VALUES (1,3);
