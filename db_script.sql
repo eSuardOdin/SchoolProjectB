@@ -58,7 +58,7 @@ CREATE TABLE Départements (
     CONSTRAINT fk_départements_pôles
     FOREIGN KEY(id_pôle) REFERENCES Pôles(id_pôle),
     CONSTRAINT fk_départements_utilisateurs
-    FOREIGN KEY(chef_département) REFERENCES Utilisateurs(id_utilisateur), 
+    FOREIGN KEY(chef_département) REFERENCES Utilisateurs(id_utilisateur)
 );
 --Insertion
 INSERT INTO Départements (nom_département, id_pôle, chef_département) VALUES('Classique', 3, 4);
@@ -191,12 +191,31 @@ INSERT INTO Cycles (nom_cycle,id_département) VALUES
  * UTILISATEURS Héritage 
  *
  */
-
-
-
 -- NEW !!
 --######################################################
 -- Table Professeurs --
 CREATE TABLE Professeurs(
     id_utilisateur INTEGER PRIMARY KEY,
 );
+
+--######################################################
+-- Table Matières --
+CREATE TABLE Matières (
+    id_matière INTEGER PRIMARY KEY AUTO_INCREMENT,
+    nom_matière VARCHAR(128) NOT NULL,
+    id_cycle INTEGER NOT NULL,
+    CONSTRAINT matière_unique 
+    	UNIQUE(nom_matière, id_cycle),
+    CONSTRAINT fk_matières_cycles
+        FOREIGN KEY (id_cycle) REFERENCES Cycles(id_cycle)
+);
+--Insertion
+INSERT INTO Matières (nom_matière, id_cycle) VALUES
+('Solfège Jazz', 5),
+('Solfège Jazz', 6),
+('Solfège Jazz', 7),
+('Solfège Jazz', 8),
+('Cours d\'ensemble Jazz', 5),
+('Cours d\'ensemble Jazz', 6),
+('Cours d\'ensemble Jazz', 7),
+('Cours d\'ensemble Jazz', 8);
