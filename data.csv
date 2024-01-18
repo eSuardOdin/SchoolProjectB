@@ -1,0 +1,139 @@
+																																			
+																																			
+	UTILISATEURS						DIRECTEURS		PROFESSEURS		CHEFS		ELEVES																						
+	id_utilisateur	nom_utilisateur	prénom_utilisateur	pwd_utilisateur	login_utilisateur		#id_utilisateur		#id_utilisateur		#id_professeur		#id_utilisateur																						
+	1	Dupont	Louis	1234	l.dupont		1		2		4		9																						
+	2	Redman	Joshua	1234	j.redman		17		3		5		10																						
+	3	Rameau	Jean-Philippe	1234	jp.rameau		18		4				11																						
+	4	Debussy	Claude	1234	c.debussy				5				13																						
+	5	Evans	Bill	1234	b.evans				6				16																						
+	6	Blade	Brian	1234	b.blade				7																										
+	7	Rosenwinkel	Kurt	1234	k.rosenwinkel				8																										
+	8	Feuillatre	Raphaël	1234	r.feuillatre				14																										
+	9	Montgomery	Wes	1234	w.montgomery				15																										
+	10	Coltrane	John	1234	j.coltrane																														
+	11	Hamasyan	Tigran	1234	t.hamasyan																														
+	12	Jones	Elvin	1234	e.jones																														
+	13	Gomez	Eddy	1234	e.gomez																														
+	14	LaFaro	Scott	1234	s.lafaro																														
+	15	Davis	Miles	1234	m.davis																														
+	16	Akinmusire	Ambrose	1234	a.akinmusire																														
+	17	Grognard	Michel	1234	m.grognard																														
+	18	Duchemin	Jean	1234	j.duchemin																														
+																																			
+																																			
+																																			
+	PÔLES				SALLES					DEPARTEMENTS																									
+	id_pôle	nom_pôle	#directeur_pôle		id_salle	nom_salle	capacité_salle	#id_pôle		id_département	nom_département	#id_pôle	#chef_département																						
+	1	Danse	17		1	Auditorium A	100	3		1	Classique	3	4																						
+	2	Théatre	18		2	Auditorium B	120	3		2	Jazz	3	5																						
+	3	Musique	1		3	A01	30	3																											
+					4	A02	35	3																											
+	MATIERES				5	A03	25	3																											
+	id_matière	nom_matière	#id_cycle		6	A04	20	3																											
+					7	A05	30	3																											
+					8	A06	10	3																											
+					9	A07	20	3																											
+					10	A08	10	3																											
+					11	A09	5	3																											
+					12	B01	15	3		CYCLES																									
+					13	B02	10	3		id_cycle	nom_cycle	#id_département																							
+					14	B03	20	3	 	1	Cycle 1	1																							
+					15	B04	10	3		2	Cycle 2	1																							
+										3	Cycle 3	1																							
+										4	Cycle Spécialité	1																							
+										5	Cycle 1	2																							
+										6	Cycle 2	2																							
+										7	Cycle 3	2																							
+										8	Cycle Spécialité	2																							
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+	MATIERES_PROFESSEURS			COURS							INSTRUMENTS				DEPARTEMENTS_INSTRUMENTS																				
+	#id_matière	#id_professeur		id_cours	date_cours	est_ouvert_cours	#id_salle	#id_matière	#id_professeur		id_instrument	nom_instrument	famille_instrument		#id_instrument	#id_département																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			
+																																			

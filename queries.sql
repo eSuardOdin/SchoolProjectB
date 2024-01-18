@@ -7,8 +7,17 @@ WHERE id_instrument IN(
     WHERE id_département = 2
     );
     
--- Nom du directeur du pôle Musique    
-SELECT nom_utilisateur FROM Utilisateurs WHERE id_utilisateur = (SELECT id_utilisateur FROM Directeurs WHERE id_pôle = 3);
+-- Nom du directeur du pôle Musique
+SELECT nom_utilisateur FROM Utilisateurs
+WHERE id_utilisateur = (SELECT directeur_pôle FROM Pôles WHERE nom_pôle = 'Musique');
+
+-- Nom de tous les professeurs
+SELECT nom_utilisateur FROM Utilisateurs 
+INNER JOIN Professeurs ON id_utilisateur = id_professeur;
+
+-- Nom, prénom des chefs
+SELECT nom_utilisateur, prénom_utilisateur FROM Utilisateurs
+INNER JOIN Chefs ON id_utilisateur = id_chef;
 
 -- Nom du chef de département jazz
 SELECT nom_utilisateur FROM Utilisateurs WHERE id_utilisateur = (SELECT chef_département FROM Départements WHERE id_département = 2);
