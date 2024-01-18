@@ -1,5 +1,5 @@
 --######################################################
---Insertion Utilisateurs
+--Insertion Utilisateurs--
 INSERT INTO Utilisateurs(nom_utilisateur, prénom_utilisateur,pwd_utilisateur,login_utilisateur) VALUES
 ('Dupont','Louis','1234','l.dupont'), -- Directeur Musique
 ('Redman','Joshua','1234','j.redman'), -- Chef Jazz
@@ -23,7 +23,7 @@ INSERT INTO Utilisateurs(nom_utilisateur, prénom_utilisateur,pwd_utilisateur,lo
 SELECT * FROM Utilisateurs;
 
 --######################################################
---Insertion Directeurs --
+--Insertion Directeurs--
 INSERT INTO Directeurs(id_directeur) VALUES (1);
 INSERT INTO Directeurs(id_directeur) VALUES (17);
 INSERT INTO Directeurs(id_directeur) VALUES (18);
@@ -31,7 +31,7 @@ INSERT INTO Directeurs(id_directeur) VALUES (18);
 SELECT * FROM Directeurs;
 
 --######################################################
---Insertion Pôles --
+--Insertion Pôles--
 INSERT INTO Pôles (nom_pôle, directeur_pôle) VALUES ('Danse',17);
 INSERT INTO Pôles (nom_pôle, directeur_pôle) VALUES ('Théatre',18);
 INSERT INTO Pôles (nom_pôle, directeur_pôle) VALUES ('Musique',1);
@@ -39,7 +39,7 @@ INSERT INTO Pôles (nom_pôle, directeur_pôle) VALUES ('Musique',1);
 SELECT * FROM Pôles;
 
 --######################################################
---Insertion Professeurs --
+--Insertion Professeurs--
 INSERT INTO Professeurs(id_professeur) VALUES (2);
 INSERT INTO Professeurs(id_professeur) VALUES (3);
 INSERT INTO Professeurs(id_professeur) VALUES (4);
@@ -53,7 +53,7 @@ INSERT INTO Professeurs(id_professeur) VALUES (15);
 SELECT * FROM Professeurs;
 
 --######################################################
---Insertion Chefs --
+--Insertion Chefs--
 INSERT INTO Chefs(id_chef) VALUES(4);
 INSERT INTO Chefs(id_chef) VALUES(5);
 
@@ -61,17 +61,27 @@ SELECT nom_utilisateur, prénom_utilisateur FROM Utilisateurs
 INNER JOIN Chefs ON id_utilisateur = id_chef;
 
 --######################################################
---Insertion Départements --
+--Insertion Départements--
 INSERT INTO Départements (nom_département, id_pôle, chef_département) VALUES('Classique', 3, 4);
-INSERT INTO Départements (nom_département, id_pôle, chef_département) VALUES('Jazz', 3, 2);
+INSERT INTO Départements (nom_département, id_pôle, chef_département) VALUES('Jazz', 3, 5);
 --INSERT INTO Départements (nom_département, id_pôle, chef_département) VALUES('Baroque', 3, 3);
 --INSERT INTO Départements (nom_département, id_pôle, chef_département) VALUES('Musiques actuelles', 3, 5);
 SELECT * FROM Départements;
 
 --######################################################
--- Table Instruments --
+--Insertion Elèves--
+INSERT INTO Elèves(id_élève) VALUES
+(9),
+(10),
+(11),
+(13),
+(16);
 
---Insertion
+SELECT nom_utilisateur, prénom_utilisateur FROM Utilisateurs
+INNER JOIN Elèves ON id_utilisateur = id_élève;
+
+--######################################################
+--Insertion Instruments--
 INSERT INTO Instruments(nom_instrument, famille_instrument) VALUES
     -- Cordes
     ('Violon', 'Cordes'),
@@ -111,23 +121,24 @@ INSERT INTO Instruments(nom_instrument, famille_instrument) VALUES
     ('Batterie', 'Percussions');
 SELECT * FROM Instruments;
 
-
 --######################################################
--- Table Instruments_Enseignés_Départements --
-
---Insertion
-INSERT INTO Instruments_Enseignés_Départements(id_instrument, id_département) VALUES
+--Insertion Départements_Instruments--
+INSERT INTO Départements_Instruments(id_instrument, id_département) VALUES
 -- Classique
 (1,1),(2,1),(3,1),(4,1),(5,1),(6,1),(9,1),(10,1),(11,1),(12,1),(13,1),(14,1),
 (15,1),(16,1),(17,1),(18,1),(19,1),(20,1),(21,1),(22,1),(23,1),(24,1),(25,1),
 (26,1),(27,1),(28,1),(29,1),(30,1),
 -- Jazz
-(4,2),(6,2),(7,2),(10,2),(11,2),(12,2),(15,2),(19,2),(20,2),(23,2),(26,2),(28,2),(31,2);
+(4,3),(6,3),(7,3),(10,3),(11,3),(12,3),(15,3),(19,3),(20,3),(23,3),(26,3),(28,3),(31,3);
 
+SELECT nom_instrument 
+FROM Instruments 
+WHERE id_instrument IN(
+    SELECT id_instrument FROM Départements_Instruments 
+    WHERE id_département = 3
+    );
 --######################################################
--- Table Salles --
-
---Insertion
+--Insertion Salles--
 INSERT INTO Salles (nom_salle, capacité_salle, id_pôle) VALUES
 ('Auditorium A',100,3),
 ('Auditorium B',120,3),
@@ -147,26 +158,14 @@ INSERT INTO Salles (nom_salle, capacité_salle, id_pôle) VALUES
 
 
 --######################################################
--- Table Cycles --
-
---Insertion
+--Insertion Cycles--
 INSERT INTO Cycles (nom_cycle,id_département) VALUES
 ('Cycle 1', 1),('Cycle 2', 1),('Cycle 3', 1),('Cycle Spécialisé', 1),
-('Cycle 1', 2),('Cycle 2', 2),('Cycle 3', 2),('Cycle Spécialisé', 2);
+('Cycle 1', 3),('Cycle 2', 3),('Cycle 3', 3),('Cycle Spécialisé', 3);
 
 
 --######################################################
--- Table Matières --
-CREATE TABLE Matières (
-    id_matière INTEGER PRIMARY KEY AUTO_INCREMENT,
-    nom_matière VARCHAR(128) NOT NULL,
-    id_cycle INTEGER NOT NULL,
-    CONSTRAINT matière_unique 
-    	UNIQUE(nom_matière, id_cycle),
-    CONSTRAINT fk_matières_cycles
-        FOREIGN KEY (id_cycle) REFERENCES Cycles(id_cycle)
-);
---Insertion
+--Insertion Matières--
 INSERT INTO Matières (nom_matière, id_cycle) VALUES
 ('Solfège Jazz', 5),
 ('Solfège Jazz', 6),
