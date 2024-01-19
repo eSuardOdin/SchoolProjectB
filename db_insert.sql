@@ -192,7 +192,6 @@ INSERT INTO Matières (nom_matière, id_cycle) VALUES
 --######################################################
 --Insertion Matières_Professeurs--
 -- Jazz
-
 --Solfège (Evans, Rosenwinkel)
 INSERT INTO Matières_Professeurs(id_matière, id_professeur) VALUES
 (1,5),(1,7),(2,5),(2,7),(3,5),(3,7),(4,5),(4,7);
