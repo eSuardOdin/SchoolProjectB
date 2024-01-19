@@ -26,7 +26,11 @@ SELECT Départements.nom_département, Utilisateurs.nom_utilisateur FROM Départ
 SELECT nom_utilisateur, prénom_utilisateur FROM Utilisateurs
 INNER JOIN Elèves ON id_utilisateur = id_élève;
 
-
+-- Trouver le(s) professeur(s) qui enseigne(nt) un cours
+SELECT id_utilisateur, nom_utilisateur, prénom_utilisateur
+FROM Utilisateurs
+WHERE id_utilisateur IN (SELECT P.id_professeur FROM Professeurs AS P INNER JOIN Matières_Professeurs AS M ON
+P.id_professeur = M.id_professeur WHERE M.id_matière = 5);
 
 
 

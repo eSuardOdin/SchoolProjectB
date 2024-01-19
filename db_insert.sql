@@ -166,7 +166,12 @@ INSERT INTO Cycles (nom_cycle,id_département) VALUES
 
 --######################################################
 --Insertion Matières--
+-- Tous les cycles (Jazz)
 INSERT INTO Matières (nom_matière, id_cycle) VALUES
+('Cours individuel instrument', 5),
+('Cours individuel instrument', 6),
+('Cours individuel instrument', 7),
+('Cours individuel instrument', 8),
 ('Solfège Jazz', 5),
 ('Solfège Jazz', 6),
 ('Solfège Jazz', 7),
@@ -175,3 +180,37 @@ INSERT INTO Matières (nom_matière, id_cycle) VALUES
 ('Cours d\'ensemble Jazz', 6),
 ('Cours d\'ensemble Jazz', 7),
 ('Cours d\'ensemble Jazz', 8);
+-- Cycles spécifiques (Jazz)
+INSERT INTO Matières (nom_matière, id_cycle) VALUES
+('Histoire du Jazz',5),
+('Atelier Big Band',7),
+('Atelier Big Band',8),
+('Atelier Standard',7),
+('Atelier Standard',8);
+
+
+--######################################################
+--Insertion Matières_Professeurs--
+-- Jazz
+
+--Solfège (Evans, Rosenwinkel)
+INSERT INTO Matières_Professeurs(id_matière, id_professeur) VALUES
+(1,5),(1,7),(2,5),(2,7),(3,5),(3,7),(4,5),(4,7);
+--Cours d'ensemble (Redman, Blade)
+INSERT INTO Matières_Professeurs(id_matière, id_professeur) VALUES
+(5,2),(5,6),(6,2),(6,6),(7,2),(7,6),(8,2),(8,6);
+--Instruments (tous)
+INSERT INTO Matières_Professeurs(id_matière, id_professeur) VALUES
+(9,2),(9,5),(9,6),(9,7),(9,14),(9,15),
+(10,2),(10,5),(10,6),(10,7),(10,14),(10,15),
+(11,2),(11,5),(11,6),(11,7),(11,14),(11,15),
+(12,2),(12,5),(12,6),(12,7),(12,14),(12,15);
+--Histoire du Jazz (Davis)
+INSERT INTO Matières_Professeurs(id_matière, id_professeur) VALUES
+(18,15);
+--Big Band (Davis)
+INSERT INTO Matières_Professeurs(id_matière, id_professeur) VALUES
+(19,15),(20,15);
+--Standard (Evans,LaFaro)
+INSERT INTO Matières_Professeurs(id_matière, id_professeur) VALUES
+(21,14),(21,5),(22,14),(22,5);
