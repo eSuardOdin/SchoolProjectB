@@ -18,8 +18,23 @@ INSERT INTO Utilisateurs(id_utilisateur, nom_utilisateur, prénom_utilisateur,pw
 (15, 'Davis','Miles','1234','m.davis'),
 (16, 'Akinmusire','Ambrose','1234','a.akinmusire'),
 (17, 'Grognard','Michel','1234','m.grognard'),
-(18, 'Duchemin','Jean','1234','j.duchemin');
-
+(18, 'Duchemin','Jean','1234','j.duchemin'),
+(19,'McBride','Christian','1234','c.mcbride'),
+(20,'Mehldau','Brad','1234','b.mehldau'),
+(21,'Gillespie','Dizzie','1234','d.gillespie'),
+(22,'Parker','Charlie','1234','c.parker'),
+(23,'Roach','Max','1234','m.roach'),
+(24,'Williams','Tony','1234','t.williams'),
+(25,'Hancock','Herbie','1234','h.hancock'),
+(26,'Motian','Paul','1234','p.motian'),
+(27,'Pastorius','Jaco','1234','j.pastorius'),
+(28,'Carter','Ron','1234','r.carter'),
+(29,'Corea','Chick','1234','c.corea'),
+(30,'Brown','Clifford','1234','c.brown'),
+(31,'Fuller','Curtis','1234','c.fuller'),
+(32,'Shorter','Wayne','1234','w.shorter'),
+(33,'Bechet','Sidney','1234','s.bechet'),
+(34,'Hall','Jim','1234','j.hall');
 SELECT * FROM Utilisateurs;
 
 --######################################################
@@ -77,7 +92,24 @@ INSERT INTO Elèves(id_élève) VALUES
 (10),
 (11),
 (13),
-(16);
+(16),
+(19),
+(20),
+(21),
+(22),
+(23),
+(24),
+(25),
+(26),
+(27),
+(28),
+(29),
+(30),
+(31),
+(32),
+(33),
+(34),
+(12);
 
 SELECT id_utilisateur, nom_utilisateur, prénom_utilisateur FROM Utilisateurs
 INNER JOIN Elèves ON id_utilisateur = id_élève;
@@ -219,3 +251,19 @@ INSERT INTO Matières_Professeurs(id_matière, id_professeur) VALUES
 --Standard (Evans,LaFaro)
 INSERT INTO Matières_Professeurs(id_matière, id_professeur) VALUES
 (16,14),(16,5),(17,14),(17,5);
+
+
+--######################################################
+--Insertion Elèves_Cycles--
+INSERT INTO Elèves_Cycles(id_élève, id_cycle) VALUES
+(9,5),(10,5),(11,5),(12,5),(13,5),(29,5),(30,5),
+(16,6),(19,6),(20,6),(21,6),(23,6),(24,6),
+(22,7),(25,7),(26,7),(27,7),(28,7),
+(31,8),(32,8),(33,8),(34,8);
+
+SELECT U.nom_utilisateur, C.nom_cycle 
+FROM (Utilisateurs AS U
+      INNER JOIN Elèves AS E ON U.id_utilisateur = E.id_élève)
+INNER JOIN (Cycles AS C 
+            INNER JOIN Elèves_Cycles AS EC ON C.id_cycle = EC.id_cycle) 
+ON E.id_élève = EC.id_élève;
