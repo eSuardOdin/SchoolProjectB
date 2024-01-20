@@ -1,7 +1,8 @@
 --######################################################
 -- Table Utilisateurs --
+-- à auto increment
 CREATE TABLE Utilisateurs (
-    id_utilisateur INTEGER PRIMARY KEY AUTO_INCREMENT,
+    id_utilisateur INTEGER PRIMARY KEY,
     nom_utilisateur VARCHAR(64) NOT NULL,
     prénom_utilisateur VARCHAR(64) NOT NULL,
     pwd_utilisateur VARCHAR(128) NOT NULL,
@@ -38,8 +39,9 @@ CREATE TABLE Elèves(
 
 --######################################################
 -- Table Pôles --
+-- à auto increment
 CREATE TABLE Pôles (
-    id_pôle INTEGER PRIMARY KEY AUTO_INCREMENT,
+    id_pôle INTEGER PRIMARY KEY,
     nom_pôle VARCHAR(10) UNIQUE NOT NULL,
     directeur_pôle INTEGER NOT NULL,
     CONSTRAINT fk_pôles_directeurs
@@ -49,8 +51,9 @@ CREATE TABLE Pôles (
 
 --######################################################
 -- Table Salles --
+-- à auto increment
 CREATE TABLE Salles (
-    id_salle INTEGER PRIMARY KEY AUTO_INCREMENT,
+    id_salle INTEGER PRIMARY KEY,
     nom_salle VARCHAR(16) NOT NULL,
     capacité_salle INTEGER NOT NULL,
     id_pôle INTEGER NOT NULL,
@@ -72,8 +75,9 @@ CREATE TABLE Chefs (
 
 --######################################################
 -- Table Départements --
+-- à auto increment
 CREATE TABLE Départements (
-    id_département INTEGER PRIMARY KEY AUTO_INCREMENT,
+    id_département INTEGER PRIMARY KEY,
     nom_département VARCHAR(64) UNIQUE NOT NULL,
     id_pôle INTEGER NOT NULL,
     chef_département INTEGER NOT NULL,
@@ -86,8 +90,9 @@ CREATE TABLE Départements (
 
 --######################################################
 -- Table Cycles --
+-- à auto increment
 CREATE TABLE Cycles (
-    id_cycle INTEGER PRIMARY KEY AUTO_INCREMENT,
+    id_cycle INTEGER PRIMARY KEY,
     nom_cycle VARCHAR(16) NOT NULL,
     id_département INTEGER NOT NULL,
     CONSTRAINT cycle_unique 
@@ -99,8 +104,9 @@ CREATE TABLE Cycles (
 
 --######################################################
 -- Table Matières --
+-- à auto increment
 CREATE TABLE Matières (
-    id_matière INTEGER PRIMARY KEY AUTO_INCREMENT,
+    id_matière INTEGER PRIMARY KEY,
     nom_matière VARCHAR(128) NOT NULL,
     id_cycle INTEGER NOT NULL,
     CONSTRAINT matière_unique 
@@ -129,6 +135,7 @@ CREATE TABLE Matières_Professeurs(
 
 --######################################################
 -- Table Instruments --
+-- à auto increment
 CREATE TABLE Instruments (
     id_instrument INTEGER PRIMARY KEY AUTO_INCREMENT,
     nom_instrument VARCHAR(32) UNIQUE NOT NULL,
@@ -159,6 +166,7 @@ CREATE TABLE Départements_Instruments (
 
 --######################################################
 -- Table Cours --
+-- à auto increment
 CREATE TABLE Cours (
     id_cours INTEGER PRIMARY KEY AUTO_INCREMENT,
     date_cours DATETIME NOT NULL,
@@ -173,4 +181,30 @@ CREATE TABLE Cours (
         FOREIGN KEY (id_matière) REFERENCES Matières(id_matière),
     CONSTRAINT fk_cours_professeurs
         FOREIGN KEY (id_professeur) REFERENCES Professeurs(id_professeur)
+);
+
+
+--######################################################
+-- Table Elèves_Cours --
+CREATE TABLE Elèves_Cours (
+    id_élève INTEGER NOT NULL,
+    id_cours INTEGER NOT NULL,
+    PRIMARY KEY (id_élève, id_cours),
+    CONSTRAINT fk_ec_élève
+        FOREIGN KEY (id_élève) REFERENCES Elèves(id_élève),
+    CONSTRAINT fk_ec_cours
+        FOREIGN KEY (id_cours) REFERENCES Cours(id_cours)
+);
+
+
+--######################################################
+-- Table Elèves_Cycles --
+CREATE TABLE Elèves_Cycles (
+    id_élève INTEGER NOT NULL,
+    id_cycle INTEGER NOT NULL,
+    PRIMARY KEY (id_élève, id_cycle),
+    CONSTRAINT fk_ecy_élève
+        FOREIGN KEY (id_élève) REFERENCES Elèves(id_élève),
+    CONSTRAINT fk_ecy_cycle
+        FOREIGN KEY (id_cycle) REFERENCES Cycles(id_cycle)
 );
