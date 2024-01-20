@@ -1,0 +1,176 @@
+--######################################################
+-- Table Utilisateurs --
+CREATE TABLE Utilisateurs (
+    id_utilisateur INTEGER PRIMARY KEY AUTO_INCREMENT,
+    nom_utilisateur VARCHAR(64) NOT NULL,
+    prénom_utilisateur VARCHAR(64) NOT NULL,
+    pwd_utilisateur VARCHAR(128) NOT NULL,
+    login_utilisateur VARCHAR(128) UNIQUE NOT NULL 
+);
+
+
+--######################################################
+-- Table Professeurs --
+CREATE TABLE Professeurs(
+    id_professeur INTEGER PRIMARY KEY,
+    CONSTRAINT fk_professeurs_utilisateurs
+    	FOREIGN KEY(id_professeur) REFERENCES Utilisateurs(id_utilisateur)
+);
+
+
+--######################################################
+-- Table Directeurs --
+CREATE TABLE Directeurs (
+    id_directeur INTEGER PRIMARY KEY,
+    CONSTRAINT fk_directeurs_utilisateurs
+    	FOREIGN KEY(id_directeur) REFERENCES Utilisateurs(id_utilisateur)
+);
+
+
+--######################################################
+-- Table Elèves --
+CREATE TABLE Elèves(
+    id_élève INTEGER PRIMARY KEY,
+    CONSTRAINT fk_élèves_utilisateurs
+    	FOREIGN KEY(id_élève) REFERENCES Utilisateurs(id_utilisateur)
+);
+
+
+--######################################################
+-- Table Pôles --
+CREATE TABLE Pôles (
+    id_pôle INTEGER PRIMARY KEY AUTO_INCREMENT,
+    nom_pôle VARCHAR(10) UNIQUE NOT NULL,
+    directeur_pôle INTEGER NOT NULL,
+    CONSTRAINT fk_pôles_directeurs
+    	FOREIGN KEY(directeur_pôle) REFERENCES Directeurs(id_directeur)
+);
+
+
+--######################################################
+-- Table Salles --
+CREATE TABLE Salles (
+    id_salle INTEGER PRIMARY KEY AUTO_INCREMENT,
+    nom_salle VARCHAR(16) NOT NULL,
+    capacité_salle INTEGER NOT NULL,
+    id_pôle INTEGER NOT NULL,
+    CONSTRAINT salle_unique 
+    	UNIQUE(id_pôle, nom_salle),
+    CONSTRAINT fk_salles_pôles
+    	FOREIGN KEY(id_pôle) REFERENCES Pôles(id_pôle)
+);
+
+
+--######################################################
+-- Table Chefs --
+CREATE TABLE Chefs (
+    id_chef INTEGER PRIMARY KEY,
+    CONSTRAINT fk_chefs_profs 
+    FOREIGN KEY(id_chef) REFERENCES Professeurs(id_professeur)
+);
+
+
+--######################################################
+-- Table Départements --
+CREATE TABLE Départements (
+    id_département INTEGER PRIMARY KEY AUTO_INCREMENT,
+    nom_département VARCHAR(64) UNIQUE NOT NULL,
+    id_pôle INTEGER NOT NULL,
+    chef_département INTEGER NOT NULL,
+    CONSTRAINT fk_départements_pôles
+    FOREIGN KEY(id_pôle) REFERENCES Pôles(id_pôle),
+    CONSTRAINT fk_départements_utilisateurs
+    FOREIGN KEY(chef_département) REFERENCES Chefs(id_chef)
+);
+
+
+--######################################################
+-- Table Cycles --
+CREATE TABLE Cycles (
+    id_cycle INTEGER PRIMARY KEY AUTO_INCREMENT,
+    nom_cycle VARCHAR(16) NOT NULL,
+    id_département INTEGER NOT NULL,
+    CONSTRAINT cycle_unique 
+    	UNIQUE(id_département, nom_cycle),
+    CONSTRAINT fk_cycles_départements
+    	FOREIGN KEY(id_département) REFERENCES Départements(id_département)
+);
+
+
+--######################################################
+-- Table Matières --
+CREATE TABLE Matières (
+    id_matière INTEGER PRIMARY KEY AUTO_INCREMENT,
+    nom_matière VARCHAR(128) NOT NULL,
+    id_cycle INTEGER NOT NULL,
+    CONSTRAINT matière_unique 
+    	UNIQUE(nom_matière, id_cycle),
+    CONSTRAINT fk_matières_cycles
+        FOREIGN KEY (id_cycle) REFERENCES Cycles(id_cycle)
+);
+
+
+--######################################################
+-- Table Départements_Professeurs ? --
+
+
+--######################################################
+-- Table Matières_Professeurs --
+CREATE TABLE Matières_Professeurs(
+    id_matière INTEGER NOT NULL,
+    id_professeur INTEGER NOT NULL,
+    PRIMARY KEY (id_matière, id_professeur),
+    CONSTRAINT fk_m_p_professeurs
+        FOREIGN KEY (id_professeur) REFERENCES Professeurs(id_professeur),
+    CONSTRAINT fk_m_p_matières
+        FOREIGN KEY (id_matière) REFERENCES Matières(id_matière)
+);
+
+
+--######################################################
+-- Table Instruments --
+CREATE TABLE Instruments (
+    id_instrument INTEGER PRIMARY KEY AUTO_INCREMENT,
+    nom_instrument VARCHAR(32) UNIQUE NOT NULL,
+    famille_instrument VARCHAR(11) NOT NULL,
+    CONSTRAINT check_famille_instrument
+    CHECK(famille_instrument IN('Cordes', 'Bois', 'Cuivres', 'Claviers', 'Percussions', 'Autre'))
+);
+
+
+--######################################################
+-- Table Départements_Instruments --
+CREATE TABLE Départements_Instruments (
+    id_instrument INTEGER NOT NULL,
+    id_département INTEGER NOT NULL,
+    PRIMARY KEY (id_instrument, id_département),
+    CONSTRAINT fk_di_instruments
+        FOREIGN KEY (id_instrument) REFERENCES Instruments(id_instrument)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_di_départements
+        FOREIGN KEY (id_département) REFERENCES Départements(id_département)
+        ON DELETE CASCADE
+);
+
+
+--######################################################
+-- Table Utilisateurs_Instruments ? --
+
+
+--######################################################
+-- Table Cours --
+CREATE TABLE Cours (
+    id_cours INTEGER PRIMARY KEY AUTO_INCREMENT,
+    date_cours DATETIME NOT NULL,
+    est_ouvert_cours BOOLEAN NOT NULL DEFAULT FALSE,
+    durée_cours INTEGER NOT NULL,
+    id_salle INTEGER NOT NULL,
+    id_matière INTEGER NOT NULL,
+    id_professeur INTEGER NOT NULL,
+    CONSTRAINT fk_cours_salles
+        FOREIGN KEY (id_salle) REFERENCES Salles(id_salle),
+    CONSTRAINT fk_cours_matières
+        FOREIGN KEY (id_matière) REFERENCES Matières(id_matière),
+    CONSTRAINT fk_cours_professeurs
+        FOREIGN KEY (id_professeur) REFERENCES Professeurs(id_professeur)
+);
