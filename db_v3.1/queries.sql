@@ -12,7 +12,7 @@ SELECT nom_utilisateur FROM Utilisateurs
 WHERE id_utilisateur = (SELECT directeur_pôle FROM Pôles WHERE nom_pôle = 'Musique');
 
 -- Nom de tous les professeurs
-SELECT nom_utilisateur FROM Utilisateurs 
+SELECT id_utilisateur, nom_utilisateur, prénom_utilisateur FROM Utilisateurs 
 INNER JOIN Professeurs ON id_utilisateur = id_professeur;
 
 -- Nom, prénom des chefs
