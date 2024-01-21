@@ -222,10 +222,6 @@ INSERT INTO Matières (id_matière, nom_matière, id_cycle) VALUES
 (16,'Atelier Standard',7),
 (17,'Atelier Standard',8);
 
-SELECT id_utilisateur, nom_utilisateur, prénom_utilisateur
-FROM Utilisateurs
-WHERE id_utilisateur IN (SELECT P.id_professeur FROM Professeurs AS P INNER JOIN Matières_Professeurs AS M ON
-P.id_professeur = M.id_professeur WHERE M.id_matière = 5);
 
 --######################################################
 --Insertion Matières_Professeurs--
@@ -252,6 +248,10 @@ INSERT INTO Matières_Professeurs(id_matière, id_professeur) VALUES
 INSERT INTO Matières_Professeurs(id_matière, id_professeur) VALUES
 (16,14),(16,5),(17,14),(17,5);
 
+SELECT id_utilisateur, nom_utilisateur, prénom_utilisateur
+FROM Utilisateurs
+WHERE id_utilisateur IN (SELECT P.id_professeur FROM Professeurs AS P INNER JOIN Matières_Professeurs AS M ON
+P.id_professeur = M.id_professeur WHERE M.id_matière = 5);
 
 --######################################################
 --Insertion Elèves_Cycles--
