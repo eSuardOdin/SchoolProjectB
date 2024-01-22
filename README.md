@@ -91,4 +91,16 @@ MLD
 
 - RESERVATIONS (FK SALLES, FK ELEVES)
 
-- 
+----
+
+Pré boulot php :
+
+- Formulaires d'ajouts directeur :
+  
+  - Ajouter un département (ajouter un chef en même temps) -> Création de cycles ou auto ?
+  
+  - Ajouter un professeur
+  
+  - Ajouter une matière à un cycle
+  
+  - Ajouter professeur à matière
