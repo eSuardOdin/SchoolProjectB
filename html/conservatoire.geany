@@ -27,7 +27,9 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=2
-FILE_NAME_0=0;PHP;0;EUTF-8;1;1;0;%2Fhome%2Fwan%2FDev%2FSchoolProjectB%2Fhtml%2Findex.php;0;4
+current_page=4
+FILE_NAME_0=378;PHP;0;EUTF-8;1;1;0;%2Fhome%2Fwan%2FDev%2FSchoolProjectB%2Fhtml%2Findex.php;0;4
 FILE_NAME_1=263;PHP;0;EUTF-8;1;1;0;%2Fhome%2Fwan%2FDev%2FSchoolProjectB%2Fhtml%2Fprofesseurs.php;0;4
-FILE_NAME_2=6643;SQL;0;EUTF-8;1;1;0;%2Fhome%2Fwan%2FDev%2FSchoolProjectB%2Fdb_v3.2%2Fdb_script_v3.2.sql;0;4
+FILE_NAME_2=103;SQL;0;EUTF-8;1;1;0;%2Fhome%2Fwan%2FDev%2FSchoolProjectB%2Fdb_v3.2%2Fdb_script_v3.2.sql;0;4
+FILE_NAME_3=589;PHP;0;EUTF-8;1;1;0;%2Fhome%2Fwan%2FDev%2FSchoolProjectB%2Fhtml%2Flogin.php;0;4
+FILE_NAME_4=278;PHP;0;EUTF-8;1;1;0;%2Fhome%2Fwan%2FDev%2FSchoolProjectB%2Fhtml%2Fcheckuser.php;0;4

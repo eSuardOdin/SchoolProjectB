@@ -10,6 +10,7 @@
 </head>
 
 <body>
+	<a href="login.php">Login</a>
 	<a href="directeur/main.php">Directeur</a>
 	<?php
 	require 'professeurs.php';

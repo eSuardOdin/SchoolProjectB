@@ -95,6 +95,9 @@ MLD
 
 Pré boulot php :
 
+- Gestion de la connexion avec login + mdp, accueil sur page élève, prof, chef (=prof + onglet de gestion du dpt) ou directeur.
+
+
 - Formulaires d'ajouts directeur :
   
   - Ajouter un département (ajouter un chef en même temps) -> Création de cycles ou auto ?
