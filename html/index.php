@@ -19,52 +19,36 @@ spl_autoload_register(function($path) {
 
 
 // Namespaces use
-use App\Model\Utilisateurs;
 use App\Router;
 
 
 $router = new Router();
+session_start();
 // echo '<pre>';
 // var_dump($_SERVER);
 // echo '</pre>';
 
-// Routes
-
-// Old way
-// $router->register(
-// 	'/',
-// 	function() {
-// 		echo 'Home';
-// 	}
-// );
-
-$router->register('/', [App\Classes\Home::class, 'index']); // [Class, 'method']
-$router->register(
-	'/prof',
-	function() {
-		echo 'Professeur';
-	}
-);
-
-// echo '<pre>';
-// var_dump($router);
-// echo '</pre>';
+// Routes -> can chain methods as router returns self
+$router
+	->get('/', [App\Classes\Home::class, 'index']) // [Class, 'method']
+	->get('/utilisateur', [App\Classes\Utilisateur::class, 'menu'])
+	->get('/utilisateur/create', [App\Classes\Utilisateur::class, 'create'])
+	->post('/utilisateur/create', [App\Classes\Utilisateur::class, 'store']);
 
 // Try routing or catch exception
 try { 
-	echo $router->resolve($_SERVER['REQUEST_URI']);
+	echo $router->resolve($_SERVER['REQUEST_URI'], strtolower($_SERVER['REQUEST_METHOD']));
 } catch (\App\Exceptions\RouteNotFoundException $e) {
 	echo $e->getErrorMessage();
 } 
-// $user = new Utilisateurs(1, "Suard", "Erwann", "1234", "e.suard");
 
+
+// // Session test
+// $_SESSION['count'] = $_SESSION['count'] + 1 ?? 0;
+// echo '<pre>';
+// var_dump($_SESSION);
+// echo '</pre>';
 ?>
-
-
-
-
-
-
 
 
 
