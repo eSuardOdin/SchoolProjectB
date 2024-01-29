@@ -4,7 +4,6 @@ declare(strict_types = 1);
 // Autoload from composer
 require_once __DIR__ . '/../html/vendor/autoload.php';
 
-
 // Custom auto loader to include path files
 /*
 spl_autoload_register(function($path) {
@@ -24,13 +23,16 @@ use App\Router;
 
 $router = new Router();
 session_start();
-// echo '<pre>';
-// var_dump($_SERVER);
-// echo '</pre>';
+
+// Upload storage path
+define('STORAGE_PATH', __DIR__ . '/storage');
+echo STORAGE_PATH;
+
 
 // Routes -> can chain methods as router returns self
 $router
 	->get('/', [App\Classes\Home::class, 'index']) // [Class, 'method']
+	->post('/upload', [App\Classes\Home::class, 'upload'])
 	->get('/utilisateur', [App\Classes\Utilisateur::class, 'menu'])
 	->get('/utilisateur/create', [App\Classes\Utilisateur::class, 'create'])
 	->post('/utilisateur/create', [App\Classes\Utilisateur::class, 'store']);
@@ -41,6 +43,8 @@ try {
 } catch (\App\Exceptions\RouteNotFoundException $e) {
 	echo $e->getErrorMessage();
 } 
+
+
 
 
 // // Session test
