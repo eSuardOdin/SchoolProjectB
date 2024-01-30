@@ -1,8 +1,10 @@
 <?php
 declare(strict_types = 1);
-namespace App\Classes;
+namespace App\Controllers;
 
-class Utilisateur
+use App\View;
+
+class UtilisateurController
 {
   private ?int $id_utilisateur;
   private string $nom_utilisateur;
@@ -27,38 +29,13 @@ class Utilisateur
   // Main user menu
   public function menu(): string
   {
-    // // Session unset test
-    // unset($_SESSION['count']);
-    // echo '<pre>';
-    // var_dump($_SESSION);
-    // echo '</pre>';
-
-    return 'Menu utilisateur';
+    return (string) View::make('/utilisateurs/index');
   }
 
   // Create user
   public function create(): string
   {
-    return '
-      <form method="post" action="/utilisateur/create">
-        <label for="nom_utilisateur">Nom</label>
-        <input type="text" name="nom_utilisateur"/>
-        <br />
-
-        <label for="prénom_utilisateur">Prénom</label>
-        <input type="text" name="prénom_utilisateur"/>
-        <br />
-
-        <label for="pwd_utilisateur">Mot de passe</label>
-        <input type="password" name="pwd_utilisateur"/>
-        <br />
-
-        <label for="login_utilisateur">Login</label>
-        <input type="text" name="login_utilisateur"/>
-        <br />
-
-        <input type="submit" value="Créer"/> 
-      </form>';
+    return (string) View::make('/utilisateurs/create');
   }
 
   // Store user

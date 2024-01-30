@@ -26,16 +26,16 @@ session_start();
 
 // Upload storage path
 define('STORAGE_PATH', __DIR__ . '/storage');
-echo STORAGE_PATH;
+define('VIEW_PATH', __DIR__ . '/Views');
 
 
 // Routes -> can chain methods as router returns self
 $router
-	->get('/', [App\Classes\Home::class, 'index']) // [Class, 'method']
-	->post('/upload', [App\Classes\Home::class, 'upload'])
-	->get('/utilisateur', [App\Classes\Utilisateur::class, 'menu'])
-	->get('/utilisateur/create', [App\Classes\Utilisateur::class, 'create'])
-	->post('/utilisateur/create', [App\Classes\Utilisateur::class, 'store']);
+	->get('/', [App\Controllers\HomeController::class, 'index']) // [Class, 'method']
+	->post('/upload', [App\Controllers\HomeController::class, 'upload'])
+	->get('/utilisateur', [App\Controllers\UtilisateurController::class, 'menu'])
+	->get('/utilisateur/create', [App\Controllers\UtilisateurController::class, 'create'])
+	->post('/utilisateur/create', [App\Controllers\UtilisateurController::class, 'store']);
 
 // Try routing or catch exception
 try { 

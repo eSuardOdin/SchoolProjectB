@@ -14,6 +14,6 @@ return array(
     'Brick\\Math\\' => array($vendorDir . '/brick/math/src'),
     'App\\Model\\' => array($baseDir . '/App/Model'),
     'App\\Exceptions\\' => array($baseDir . '/App/Exceptions'),
-    'App\\Classes\\' => array($baseDir . '/App/Classes'),
+    'App\\Controllers\\' => array($baseDir . '/App/Controllers'),
     'App\\' => array($baseDir . '/App'),
 );
