@@ -27,15 +27,15 @@ class UtilisateurController
   }
 
   // Main user menu
-  public function menu(): string
+  public function menu(): View
   {
-    return (string) View::make('/utilisateurs/index');
+    return View::make('/utilisateurs/index');
   }
 
   // Create user
-  public function create(): string
+  public function create(): View
   {
-    return (string) View::make('/utilisateurs/create');
+    return View::make('/utilisateurs/create');
   }
 
   // Store user
