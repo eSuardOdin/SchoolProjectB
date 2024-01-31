@@ -107,3 +107,21 @@ Pré boulot php :
   - Ajouter une matière à un cycle
   
   - Ajouter professeur à matière
+  
+ 
+
+
+---
+Articulé en MVC.
+
+Controller:
+	
+	ConnexionController : Gère les méthodes pour se connecter à l'application et affiche les Views de formulaire, de l'erreur de connexion.
+	
+	ProfilController : Classe parente des controllers pour ElèveController, ProfController et DirecteurController (attention, un prof peut être chef de département)
+	
+	ElèveController : Gestion des méthodes pour consulter l'emploi du temps, s'inscrire à des cours, consulter ses notes.
+	
+	ProfController : Gestion des méthodes pour consulter l'emploi du temps, créer des examens et les affecter à ses élèves, noter ses élèves.
+	
+	ChefController : (on rajoutera un onglet de menu de chef sur un menu prof) Gestion des méthodes pour préajouter un élève à son dpt (pour les auditions, un élève n'a accès à rien sans avoir une entrée dans élève_cycle), CRUD un élève (
