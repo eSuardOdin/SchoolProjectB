@@ -9,3 +9,10 @@
     <br/>
 
     <input type="submit" name="submit" value="Connect">
+    <br />
+    <?php 
+        if($error !== null)
+        {
+            echo '<p>'. $error .'</p>';
+        }
+        ?>

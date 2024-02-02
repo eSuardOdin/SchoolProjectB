@@ -6,6 +6,8 @@ class Home extends BaseController
 {
     public function index(): string
     {
-        return view('logging');
+        helper('form');
+        $data['error'] = null;
+        return view('logging', $data);
     }
 }

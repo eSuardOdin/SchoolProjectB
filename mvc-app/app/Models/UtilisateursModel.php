@@ -18,8 +18,8 @@ class UtilisateursModel extends Model{
     {
         $sql = 'SELECT * FROM Utilisateurs WHERE login_utilisateur = :login: AND pwd_utilisateur = :pwd:';
         $db = db_connect();
-        $db->query($sql, [
+        return $db->query($sql, [
             'login' => $login,
-            'pwd' => $password]);
+            'pwd' => $password])->getFirstRow();
     }
 }

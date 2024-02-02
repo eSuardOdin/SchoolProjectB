@@ -2,6 +2,7 @@
 
 use CodeIgniter\Router\RouteCollection;
 use App\Controllers\Utilisateurs;
+use App\Controllers\Home;
 /**
  * @var RouteCollection $routes
  */
