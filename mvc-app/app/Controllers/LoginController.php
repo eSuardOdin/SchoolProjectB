@@ -3,11 +3,12 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 use App\Models\UtilisateursModel;
-class Login extends Controller
+class LoginController extends BaseController
 {
 
-    public function index(): string
+    public function index()
     {
+        $session = session();
         helper('form');
         $data['error'] = null;
         return view('log', $data);
@@ -21,12 +22,8 @@ class Login extends Controller
     public function authenticate()
     {
         helper('form');
-        // Instance de la session
+        // Instance de la session et du model user
         $session = session();
-        // echo '<pre>';
-        // echo var_dump($_SESSION);
-        // echo '</pre>';
-
         $userModel = model(UtilisateursModel::class);
 
         // Variables du post
@@ -56,16 +53,19 @@ class Login extends Controller
         $userData = [
             'id' => $user['id_utilisateur'],
             'nom' => $user['nom_utilisateur'],
-            'prénom' => $user['prénom_utilisateur']
+            'prénom' => $user['prénom_utilisateur'],
+            'is_logged' => true
         ];
         $session->set($userData);
+        
         // Menu principal
-        return redirect('/menu');
+        return redirect('menu');
     }
 
     public function logout()
     {
-        session_destroy();
-        return redirect('/');
+        $session = session();
+        $session->remove(['id', 'nom', 'prénom', 'is_logged']);
+        return redirect()->to('/');
     }
 }

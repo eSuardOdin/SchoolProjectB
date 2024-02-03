@@ -1,17 +1,19 @@
 <?php
 
 use CodeIgniter\Router\RouteCollection;
-use App\Controllers\Login;
+use App\Controllers\LoginController;
+use App\Controllers\MenuController;
 /**
  * @var RouteCollection $routes
  */
 // Form de connexion
-$routes->get('/', [Login::class, 'index']);
+$routes->get('/', [LoginController::class, 'index']);
+// $routes->post('/', [LoginController::class, 'index']);
 // Connexion check
-$routes->post('/login', [Login::class, 'authenticate']);
+$routes->post('login', [LoginController::class, 'authenticate']);
 // Déconnexion
-$routes->post('/logout', [Login::class, 'logout']);
+$routes->post('logout', [LoginController::class, 'logout']);
 
 
 // Menu principal
-$routes->get('/menu', [Menu::class, 'init_menu']);
+$routes->get('menu', [MenuController::class, 'index']);
