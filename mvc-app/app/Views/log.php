@@ -1,4 +1,4 @@
-<form method="post" action="/">
+<form method="post" action="/login">
     <?= csrf_field() ?>
     <label for="login">Login</label>
     <input type="input" name="login" value="<?= set_value('login')?>">
