@@ -10,9 +10,10 @@
 
     <input type="submit" name="submit" value="Connect">
     <br />
-    <?php 
-        if($error !== null)
+    <?php
+        if(session()->getFlashData('error'))
         {
-            echo '<p>'. $error .'</p>';
+            echo '<p>'. session()->getFlashData('error') .'</p>';
         }
         ?>
+

@@ -5,7 +5,7 @@ use CodeIgniter\Controller;
 use App\Models\UtilisateursModel;
 class Utilisateurs extends Controller
 {
-    public function connect()
+    /*public function connect()
     {
         helper('form');
 
@@ -18,7 +18,7 @@ class Utilisateurs extends Controller
         // No need for validation ?
         $user = model(UtilisateursModel::class);
 
-        $user_data = $user->getUtilisateur($obj['login'], $obj['password']);
+        $user_data = $user->authenticate($obj['login'], $obj['password']);
 
         if(empty($user_data))
         {
@@ -26,14 +26,10 @@ class Utilisateurs extends Controller
             return view('logging', $data);
         }
         
-        $user_data = $this->where([
-            'login_utilisateur' => $obj['login'],
-            'password_utilisateur' => $obj['password']
-        ])->first();
 
         echo '<br>';
         echo var_dump($user_data);
         echo '</br>';
         // return view('utilisateurs/menu', $user_data);
-    }
+    }*/
 }

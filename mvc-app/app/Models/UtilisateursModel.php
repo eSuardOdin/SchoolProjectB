@@ -14,12 +14,12 @@ class UtilisateursModel extends Model{
         'login_utilisateur',
     ];
 
-    public function getUtilisateur($login, $password)
+    /*public function getUtilisateur($login, $password)
     {
         $sql = 'SELECT * FROM Utilisateurs WHERE login_utilisateur = :login: AND pwd_utilisateur = :pwd:';
         $db = db_connect();
         return $db->query($sql, [
             'login' => $login,
-            'pwd' => $password])->getFirstRow();
-    }
+            'pwd' => $password])->getRowArray();
+    }*/
 }
