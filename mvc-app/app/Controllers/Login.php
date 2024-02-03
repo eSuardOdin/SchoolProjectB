@@ -63,5 +63,9 @@ class Login extends Controller
         return redirect('/menu');
     }
 
-
+    public function logout()
+    {
+        session_destroy();
+        return redirect('/');
+    }
 }
