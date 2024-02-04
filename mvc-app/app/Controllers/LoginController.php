@@ -49,6 +49,14 @@ class LoginController extends BaseController
             return redirect('/')->withInput()->with('error', 'Utilisateur inconnu ou mauvais mot de passe');
         }
 
+
+        // Test rôle
+        $userModel->set_role($user['id_utilisateur']);
+        echo '<pre>';
+        echo print_r($userModel->get_role());
+        echo '</pre>';
+
+        /*
         // Set de la session avec data utilisateur
         $userData = [
             'id' => $user['id_utilisateur'],
@@ -60,6 +68,7 @@ class LoginController extends BaseController
         
         // Menu principal
         return redirect('menu');
+        */
     }
 
     public function logout()
