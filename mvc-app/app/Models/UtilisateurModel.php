@@ -20,16 +20,25 @@ class UtilisateurModel extends Model{
         'directeur' => null,
     ];
     protected $data = [];
-    
 
     public function get_data()
     {
         return $this->data;
     }
+
+
+    public function set_basic_data($id)
+    {
+        // $this->data['id'] = $id;
+        $this->data['user_data'] = $this->db->table('Utilisateurs')
+        ->where('id_utilisateur = ' . $id)
+        ->get()
+        ->getRow();
+    }
+
     public function set_role($id)
     {
-        // Attribution de l'id
-        $this->data['id'] = $id;
+        
         // Check si professeur
         $this->role['professeur'] = $this->db->table('Utilisateurs')
         ->select('Utilisateurs.id_utilisateur')
@@ -38,39 +47,6 @@ class UtilisateurModel extends Model{
         ->get()
         ->getRowArray();
 
-        
-        if($this->role['professeur'] !== null)
-        {
-            /* Check les matières enseignées */
-            // Get les id des matières comme subquery pour la clause IN
-            $id_matieres = $this->db->table('Matières_Professeurs')
-            ->distinct()
-            ->select('`id_matière`')
-            ->where('id_professeur = ' . $id);
-
-            // Get les matières
-            $matieres = $this->db->table('Matières')
-            ->whereIn('`Matières`.`id_matière`', $id_matieres)
-            ->get()
-            ->getResultArray();
-            
-            // Affectation des datas matières
-            if($matieres !== null)
-            {
-                $this->role['professeur']['matières'] = $matieres;
-            }
-
-            // Check si chef département
-            $is_chef = $this->db->table('Départements')
-            ->where('`Départements`.`chef_département`', $id)
-            ->get()
-            ->getRowArray();
-            // Affectation des datas chefs
-            if($is_chef !== null)
-            {
-                $this->role['professeur']['chef'] = $is_chef;
-            }
-        }
         
         // Check si élève
         $this->role['élève'] = $this->db->table('Utilisateurs')

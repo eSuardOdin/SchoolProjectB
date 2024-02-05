@@ -9,18 +9,17 @@ class ProfesseurModel extends UtilisateurModel
     protected $table            = 'Professeurs';
     protected $primaryKey       = 'id_professeur';
     protected $matières;
-    public function __construct()
-    {
-        parent::__construct();
-        $this->set_data();
-    }
 
-
-    private function set_data()
+    // Fonction utilisée dans le Factory builder
+    public function set_data()
     {
         $this->data['matières_enseignées'] = $this->set_matières();
+
+        // Check si chef
+        $this->set_chef();
     }
 
+    // Set les matières enseignées par le prof
     private function set_matières()
     {
         /* Check les matières enseignées */
@@ -28,7 +27,7 @@ class ProfesseurModel extends UtilisateurModel
         $id_matieres = $this->db->table('Matières_Professeurs')
         ->distinct()
         ->select('`id_matière`')
-        ->where('id_professeur = ' . $this->data['id']);
+        ->where('id_professeur = ' . $this->data['user_data']->id_utilisateur);
 
         // Get les matières
         $matieres = $this->db->table('Matières')
@@ -37,6 +36,21 @@ class ProfesseurModel extends UtilisateurModel
         ->getResultArray();
 
         return $matieres;
+    }
+
+
+    // Set le statut de chef (pour upgrade dans la Factory)
+    private function set_chef()
+    {
+        $is_chef = $this->db->table('Départements')
+            ->where('`Départements`.`chef_département`', $this->data['user_data']->id_utilisateur)
+            ->get()
+            ->getRow();
+            // Affectation des datas chefs
+            if($is_chef !== null)
+            {
+                $this->data['chef'] = $is_chef;
+            }
     }
 
 }

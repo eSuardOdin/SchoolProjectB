@@ -52,9 +52,12 @@ class LoginController extends BaseController
             return redirect('/')->withInput()->with('error', 'Utilisateur inconnu ou mauvais mot de passe');
         }
 
+        // Attribution de l'id
+        $userModel->set_basic_data($user['id_utilisateur']);
         
         $userModel = UtilisateurFactory::upgrade_utilisateur($userModel, $user['id_utilisateur']);
         echo '<pre>';
+        // echo var_dump($userModel);
         echo print_r($userModel->get_data());
         echo '</pre>';
 
