@@ -3,7 +3,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class UtilisateursModel extends Model{
+class UtilisateurModel extends Model{
     protected $table      = 'Utilisateurs';
     // Uncomment below if you want add primary key
     //protected $primaryKey = 'id_utilisateur';
@@ -14,14 +14,22 @@ class UtilisateursModel extends Model{
         'pwd_utilisateur',
         'login_utilisateur',
     ];
-    private $role = [
+    protected $role = [
         'élève' => null,
         'professeur' => null,
         'directeur' => null,
     ];
+    protected $data = [];
+    
 
+    public function get_data()
+    {
+        return $this->data;
+    }
     public function set_role($id)
     {
+        // Attribution de l'id
+        $this->data['id'] = $id;
         // Check si professeur
         $this->role['professeur'] = $this->db->table('Utilisateurs')
         ->select('Utilisateurs.id_utilisateur')

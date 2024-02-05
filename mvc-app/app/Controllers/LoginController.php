@@ -2,7 +2,10 @@
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
-use App\Models\UtilisateursModel;
+use App\Models\UtilisateurModel;
+use App\Models\ProfesseurModel;
+use App\Helpers\UtilisateurFactory;
+
 class LoginController extends BaseController
 {
 
@@ -24,7 +27,7 @@ class LoginController extends BaseController
         helper('form');
         // Instance de la session et du model user
         $session = session();
-        $userModel = model(UtilisateursModel::class);
+        $userModel = model(UtilisateurModel::class);
 
         // Variables du post
         $login = $this->request->getVar('login');
@@ -49,13 +52,23 @@ class LoginController extends BaseController
             return redirect('/')->withInput()->with('error', 'Utilisateur inconnu ou mauvais mot de passe');
         }
 
-
-        // Test rôle
-        $userModel->set_role($user['id_utilisateur']);
+        
+        $userModel = UtilisateurFactory::upgrade_utilisateur($userModel, $user['id_utilisateur']);
         echo '<pre>';
-        echo print_r($userModel->get_role());
+        echo print_r($userModel->get_data());
         echo '</pre>';
 
+        // // Test rôle
+        // $userModel->set_role($user['id_utilisateur']);
+        // if($userModel->get_role()['professeur'] !== null)
+        // {
+        //     $userModel = model(ProfesseurModel::class);
+        //     echo '<pre>';
+        //     echo print_r($userModel->get_role());
+        //     echo '</pre>';
+
+        // }
+        
         /*
         // Set de la session avec data utilisateur
         $userData = [
