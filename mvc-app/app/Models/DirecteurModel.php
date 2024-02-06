@@ -30,3 +30,9 @@ class DirecteurModel extends UtilisateurModel
 
 
 }
+
+
+/*
+$userData = $userModel->get_data();
+        $session->set($userData);
+*/

@@ -9,8 +9,12 @@ use App\Helpers\UtilisateurFactory;
 class LoginController extends BaseController
 {
 
+
     public function index()
     {
+        // Detruire la précédente session
+        $this->logout();
+        
         $session = session();
         helper('form');
         $data['error'] = null;
@@ -56,41 +60,24 @@ class LoginController extends BaseController
         $userModel->set_basic_data($user['id_utilisateur']);
         
         $userModel = UtilisateurFactory::upgrade_utilisateur($userModel, $user['id_utilisateur']);
-        echo '<pre>';
-        // echo var_dump($userModel);
-        echo print_r($userModel->get_data());
-        echo '</pre>';
 
-        // // Test rôle
-        // $userModel->set_role($user['id_utilisateur']);
-        // if($userModel->get_role()['professeur'] !== null)
-        // {
-        //     $userModel = model(ProfesseurModel::class);
-        //     echo '<pre>';
-        //     echo print_r($userModel->get_role());
-        //     echo '</pre>';
-
-        // }
-        
-        /*
         // Set de la session avec data utilisateur
+        // $userData = $userModel->get_data();
         $userData = [
-            'id' => $user['id_utilisateur'],
-            'nom' => $user['nom_utilisateur'],
-            'prénom' => $user['prénom_utilisateur'],
-            'is_logged' => true
+            'is_logged' => true,
+            'logged_user' => $userModel->get_data()
         ];
         $session->set($userData);
         
         // Menu principal
         return redirect('menu');
-        */
     }
 
     public function logout()
     {
         $session = session();
-        $session->remove(['id', 'nom', 'prénom', 'is_logged']);
+        $session->remove(['logged_user', 'is_logged']);
+        $session->destroy();
         return redirect()->to('/');
     }
 }
