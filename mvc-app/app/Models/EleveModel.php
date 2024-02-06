@@ -5,7 +5,10 @@ class EleveModel extends UtilisateurModel
 {
     public function set_data()
     {
+        // On reset le role
+        $this->data['role'] = 'élève';
         $this->data['cycles_eleve'] = $this->set_cycles();
+
     }
 
     private function set_cycles()

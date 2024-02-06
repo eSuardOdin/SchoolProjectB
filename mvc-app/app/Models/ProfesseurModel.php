@@ -13,6 +13,8 @@ class ProfesseurModel extends UtilisateurModel
     // Fonction utilisée dans le Factory builder
     public function set_data()
     {
+        // On reset le role
+        $this->data['role'] = 'professeur';
         $this->data['matières_enseignées'] = $this->set_matières();
 
         // Check si chef

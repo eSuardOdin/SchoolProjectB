@@ -14,11 +14,6 @@ class UtilisateurModel extends Model{
         'pwd_utilisateur',
         'login_utilisateur',
     ];
-    protected $role = [
-        'élève' => null,
-        'professeur' => null,
-        'directeur' => null,
-    ];
     protected $data = [];
 
     public function get_data()
@@ -39,35 +34,52 @@ class UtilisateurModel extends Model{
     public function set_role($id)
     {
         
+        // $this->role['professeur'] = $this->db->table('Utilisateurs')
+        // ->select('Utilisateurs.id_utilisateur')
+        // ->join('Professeurs', 'Professeurs.id_professeur = Utilisateurs.id_utilisateur', 'inner')
+        // ->where('Utilisateurs.id_utilisateur', $id)
+        // ->get()
+        // ->getRowArray();
+
         // Check si professeur
-        $this->role['professeur'] = $this->db->table('Utilisateurs')
+        $prof = $this->db->table('Utilisateurs')
         ->select('Utilisateurs.id_utilisateur')
         ->join('Professeurs', 'Professeurs.id_professeur = Utilisateurs.id_utilisateur', 'inner')
         ->where('Utilisateurs.id_utilisateur', $id)
         ->get()
         ->getRowArray();
+        if($prof !== null)
+        {
+            $this->data['role'] = 'professeur';
+            return;
+        }
 
         
         // Check si élève
-        $this->role['élève'] = $this->db->table('Utilisateurs')
+        $eleve = $this->db->table('Utilisateurs')
         ->select('Utilisateurs.id_utilisateur')
         ->join('Elèves', '`Elèves`.`id_élève` = `Utilisateurs`.`id_utilisateur`', 'inner')
         ->where('Utilisateurs.id_utilisateur', $id)
         ->get()
         ->getRowArray();
-
+        if($eleve !== null)
+        {
+            $this->data['role'] = 'élève';
+            return;
+        }
 
         // Check si directeur
-        $this->role['directeur'] = $this->db->table('Utilisateurs')
+        $directeur = $this->db->table('Utilisateurs')
         ->select('Utilisateurs.id_utilisateur')
         ->join('Directeurs', 'Directeurs.id_directeur = Utilisateurs.id_utilisateur', 'inner')
         ->where('Utilisateurs.id_utilisateur', $id)
         ->get()
         ->getRowArray();
+        if($directeur !== null)
+        {
+            $this->data['role'] = 'directeur';
+            return;
+        }
     }
-    public function get_role() 
-    {
-        return $this->role;
-    } 
     
 }

@@ -4,12 +4,13 @@ use App\Models\ProfesseurModel;
 use App\Models\ChefModel;
 use App\Models\UtilisateurModel;
 use App\Models\EleveModel;
+use App\Models\DirecteurModel;
 class UtilisateurFactory
 {
     static function upgrade_utilisateur(UtilisateurModel $user, $id)
     {
         $user->set_role($id);
-        if($user->get_role()['professeur'] !== null)
+        if($user->get_data()['role'] === 'professeur')
         {
             $prof = new ProfesseurModel();
             $prof->set_basic_data($id);
@@ -24,13 +25,21 @@ class UtilisateurFactory
                 return $chef;
             }
         }
-        elseif($user->get_role()['élève'] !== null)
+        elseif($user->get_data()['role'] === 'élève')
         {
             $eleve = new EleveModel();
             $eleve->set_basic_data($id);
             $eleve->set_data();
 
             return $eleve;
+        }
+        elseif($user->get_data()['role'] === 'directeur')
+        {
+            $directeur = new DirecteurModel();
+            $directeur->set_basic_data($id);
+            $directeur->set_data();
+
+            return $directeur;
         }
     } 
 }
