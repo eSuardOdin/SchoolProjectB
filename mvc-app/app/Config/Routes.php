@@ -3,6 +3,8 @@
 use CodeIgniter\Router\RouteCollection;
 use App\Controllers\LoginController;
 use App\Controllers\MenuController;
+use App\Controllers\PlanningController;
+use App\Controllers\CoursController;
 /**
  * @var RouteCollection $routes
  */
@@ -17,3 +19,11 @@ $routes->post('logout', [LoginController::class, 'logout']);
 
 // Menu principal
 $routes->get('menu', [MenuController::class, 'index']);
+
+
+// Planning
+$routes->get('planning', [PlanningController::class, 'index']);
+
+
+/* Routes chef département */
+$routes->get('cours', [CoursController::class, 'index']);

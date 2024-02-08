@@ -14,8 +14,8 @@
         echo '
         <table>
             <tr>
-                <td><a href="">Menu</a></td>
-                <td><a href="">Emploi du temps</a></td>
+                <td><a href="/">Menu</a></td>
+                <td><a href="/planning">Planning</a></td>
             </tr>
         </table>
         ';
@@ -40,7 +40,7 @@
         <table>
             <tr>
                 <td><a href="">Menu</a></td>
-                <td><a href="">Emploi du temps</a></td>
+                <td><a href="/planning">Planning</a></td>
                 <td><a href="">Examens</a></td> ';
 
         // Si le professeur est chef
@@ -49,6 +49,7 @@
             echo '
             <td><a href="">Professeurs</a></td>
             <td><a href="">Elèves</a></td>
+            <td><a href="/cours">Cours</a></td>
             ';
         }
         echo '

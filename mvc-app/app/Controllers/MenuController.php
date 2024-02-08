@@ -8,6 +8,7 @@ class MenuController extends BaseController
 
     private function check_logged(): bool
     {
+        log_message('info', 'Entrée dans la gestion du logged test');
         $session = session();
         if(!$session->has('is_logged'))
         {
@@ -22,6 +23,7 @@ class MenuController extends BaseController
 
     public function index()
     {
+        log_message('info', 'Entrée dans la gestion du menu');
         $session = session();
         // Check si l'user est bien connecté
         if(!$this->check_logged())
