@@ -1,4 +1,7 @@
 <nav>
+  <table>
+    
+  </table>
   <ul>
     <li><a href="">Accueil</a></li>
     <li><a href="">Produits</a></li>
