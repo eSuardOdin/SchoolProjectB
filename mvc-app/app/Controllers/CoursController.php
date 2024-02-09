@@ -2,6 +2,10 @@
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
+use App\Models\ChefModel;
+use App\Models\MatièreModel;
+
+
 class CoursController extends BaseController
 {
 
@@ -22,6 +26,12 @@ class CoursController extends BaseController
         return true;
     }
 
+    // Afficher le menu cours à un chef de département, il pourra
+    // sélectionner un cycle de son département et voir, ajouter et
+    // supprimer la matière. (à voir, la matière serait déjà associée
+    // à un cycle par le directeur ?)
+
+    // !!!! CHANGER ET RAJOUTER UNE MANY TO MANY MATIERES CYCLES
     public function index()
     {
         $session = session();
@@ -36,6 +46,8 @@ class CoursController extends BaseController
             $user = $session->get('logged_user');
             if(isset($user['chef']))
             {
+                $matière_model = model(MatièreModel::class);
+                $session->set('matières', $matière_model->get_matières_département($user['chef']->id_département));
                 return view('utilisateurs/professeur/chef/cours');
             }
             // Rediriger si rôle non valide 

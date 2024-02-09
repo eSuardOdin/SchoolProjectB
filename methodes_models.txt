@@ -1,0 +1,11 @@
+Ajouter les méthodes dans les models par rapport aux fonctionnalités des rôles :
+  - Elève : 
+    - voir_planning : 	  . Créer les requetes permettant d'afficher tous les cours où l'élève est inscrit
+                            (ou les crénaux des salles qu'il a reservé)
+    - reserver_salle :	  . Reserver une salle libre (Visuellement, on remplit un formulaire avec jour demandé
+                            et l'heure demandée pour afficher les salles libres)
+    - inscription_cours : . Un élève doit s'inscrire à tous les cours qu'il doit valider pour valider son cycle
+			    on verra apparaître toutes les matières qu'il lui reste à valider et selectionner une
+			    d'elles nous envoie sur un formulaire de selection de créneau parmis ceux dispo pour
+			    matière
+  - Professeur

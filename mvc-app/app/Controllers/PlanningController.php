@@ -22,6 +22,8 @@ class PlanningController extends BaseController
         return true;
     }
 
+    // Affiche la vue du planning en fonction du rôle professeur/élève
+    // redirection si autre rôle 
     public function index()
     {
         $session = session();
@@ -46,6 +48,4 @@ class PlanningController extends BaseController
             else { return redirect('menu'); }
         }
     }
-
-    
 }

@@ -125,3 +125,10 @@ Controller:
 	ProfController : Gestion des méthodes pour consulter l'emploi du temps, créer des examens et les affecter à ses élèves, noter ses élèves.
 	
 	ChefController : (on rajoutera un onglet de menu de chef sur un menu prof) Gestion des méthodes pour préajouter un élève à son dpt (pour les auditions, un élève n'a accès à rien sans avoir une entrée dans élève_cycle), CRUD un élève (
+
+
+
+
+---
+To do :
+  - Chef : Dans l'onglet cours, ajouter les matières du cycle. 

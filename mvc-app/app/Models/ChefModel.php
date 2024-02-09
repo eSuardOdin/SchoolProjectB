@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
-
+use App\Models\MatièreModel;
 class ChefModel extends ProfesseurModel
 {
     public function __construct($data)
@@ -11,4 +11,6 @@ class ChefModel extends ProfesseurModel
         parent::__construct();
         $this->data = $data;
     }
+
+    
 }
