@@ -11,12 +11,6 @@ class MatièreModel extends Model{
         'nom_matière',
         'id_cycle'
     ];
-    // protected $data = [];
-
-    // public function get_data()
-    // {
-    //     return $this->data;
-    // }
 
     // Get une matière, sera utilisée dans l'onglet cours du chef de departement
     public function get_matière($id)
@@ -26,6 +20,9 @@ class MatièreModel extends Model{
         ->get()
         ->getRow();
     }
+
+    // Insertion d'une matière dans la db
+    public function insert_matière(){}
 
     // Get les matières d'un département
     public function get_matières_département($id_dep)
@@ -47,5 +44,5 @@ class MatièreModel extends Model{
         }
         return $matières;
     }
-    
+
 }
