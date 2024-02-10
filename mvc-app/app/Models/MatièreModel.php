@@ -22,6 +22,7 @@ class MatièreModel extends Model{
     }
 
     // Insertion d'une matière dans la db
+    
     public function insert_matière(){}
 
     // Get les matières d'un département

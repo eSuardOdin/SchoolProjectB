@@ -48,7 +48,7 @@
         {
             echo '
             <td><a href="">Professeurs</a></td>
-            <td><a href="">Elèves</a></td>
+            <td><a href="/eleves">Elèves</a></td>
             <td><a href="/cours">Cours</a></td>
             ';
         }

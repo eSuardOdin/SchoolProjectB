@@ -37,3 +37,4 @@ $routes->get('planning', [PlanningController::class, 'index']);
  * Routes chef département
  */
 $routes->get('cours', [CoursController::class, 'index']);
+$routes->get('eleve', [CoursController::class, 'index']);

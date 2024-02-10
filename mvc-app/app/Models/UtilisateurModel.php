@@ -5,8 +5,7 @@ use CodeIgniter\Model;
 
 class UtilisateurModel extends Model{
     protected $table      = 'Utilisateurs';
-    // Uncomment below if you want add primary key
-    //protected $primaryKey = 'id_utilisateur';
+    protected $primaryKey = 'id_utilisateur';
 
     protected $allowedFields = [
         'nom_utilisateur',
@@ -14,6 +13,11 @@ class UtilisateurModel extends Model{
         'pwd_utilisateur',
         'login_utilisateur',
     ];
+
+    protected $useAutoIncrement = true;
+    protected $returnType     = 'array'; // à changer quand Entity
+    protected bool $allowEmptyInserts = false;
+
     protected $data = [];
 
     public function get_data()
