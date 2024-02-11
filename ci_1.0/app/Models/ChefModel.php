@@ -7,11 +7,16 @@ use App\Models\MatièreModel;
 use App\Models\ElèveModel;
 class ChefModel extends ProfesseurModel
 {
-    public function __construct($data)
-    {
-        parent::__construct();
-        $this->data = $data;
-    }
+
+    protected $table            = 'Chefs';
+    protected $primaryKey       = 'id_chef';
+    protected $allowedFields = [
+        'id_chef'
+    ];
+    protected $useAutoIncrement = false;
+    protected $returnType     = \App\Entities\Chef::class;
+    protected $matières;
+
 
     // Créer un cours et l'affecter à une salle
     public function créer_cours($id_matière, $id_salle)

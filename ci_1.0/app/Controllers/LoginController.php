@@ -5,7 +5,7 @@ use CodeIgniter\Controller;
 use App\Models\UtilisateurModel;
 use App\Models\EleveModel;
 use App\Models\ProfesseurModel;
-use App\Helpers\UtilisateurFactory;
+use App\Models\ChefModel;
 
 class LoginController extends BaseController
 {
@@ -56,12 +56,32 @@ class LoginController extends BaseController
         }
         else
         {
+            // On libère la mémoire
+            $eleveModel = null;
             // Check si professeur
             $profModel = model(ProfesseurModel::class);
             $prof = $profModel->where('id_professeur', $user->get_user_id())->first();
             if($prof !== null)
             {
-                $session->set('user_data', $prof->append_role());
+                // Check si chef
+                $chefModel = model(ChefModel::class);
+                $chef = $chefModel->where('id_chef', $user->get_user_id())->first();
+                if($chef !== null)
+                {
+                    // On libère la mémoire
+                    $profModel = null;
+                    // Set des infos chef + prof
+                    $session->set('user_data', $chef->append_chef($prof));
+                    // On libère la mémoire
+                    $prof = null;
+                }
+                else
+                {
+                    // On libère la mémoire
+                    $chefModel = null;
+                    // Set des infos prof
+                    $session->set('user_data', $prof->append_role());
+                }
             }
         }
 
