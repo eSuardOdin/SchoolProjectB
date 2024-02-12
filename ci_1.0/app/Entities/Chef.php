@@ -16,7 +16,7 @@ class Chef extends Professeur
     public function append_chef(Professeur $prof): array
     {
         $arr = $prof->append_role();
-        $arr['chef'] = true;
+        $arr['professeur']['chef'] = [];
         return $arr;
     }
 }

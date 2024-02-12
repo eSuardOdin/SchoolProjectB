@@ -185,6 +185,12 @@ INSERT INTO Cycles (nom_cycle, places_cycle, cycle_parent, id_département) VALU
 ('Cycle 1', 10, 7, 2), ('Cycle Découverte Jazz', 10, 8, 2);
 
 SELECT * FROM Cycles;
+
+
+
+--************
+--*   TODO   *
+--************
 --######################################################
 --Insertion Matières--
 -- Tous les cycles (Jazz)

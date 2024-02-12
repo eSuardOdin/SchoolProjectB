@@ -22,7 +22,19 @@ class Eleve extends Utilisateur
     {
         $user = $this->get_base_user((int)$this->attributes['id_élève']);
         $arr = $user->get_session_infos();
-        $arr['role'] = 'élève';
+        $arr['élève'] = [];
+        $arr['élève']['cycle'] = $this->get_cycle_élève((int)$this->attributes['id_élève']);
         return $arr;
+    }
+
+    // Get le cycle de l'élève
+    public function get_cycle_élève(int $id): ?array
+    {
+        $userModel = model(UtilisateurModel::class);
+        return $userModel->db->table('Elèves_Cycles')
+        ->where('id_élève', $id)
+        ->where('inscrit_cycle', true)
+        ->get()
+        ->getRowArray();
     }
 }

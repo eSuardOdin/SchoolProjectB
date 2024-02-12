@@ -22,7 +22,7 @@ class Professeur extends Utilisateur
     {
         $user = $this->get_base_user((int)$this->attributes['id_professeur']);
         $arr = $user->get_session_infos();
-        $arr['role'] = 'professeur';
+        $arr['professeur'] = [];
         return $arr;
     }
 }
