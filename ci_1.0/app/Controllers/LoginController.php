@@ -53,6 +53,12 @@ class LoginController extends BaseController
         if($eleve !== null)
         {
             $session->set('user_data', $eleve->append_role());
+            // Si l'élève n'est pas dans un cycle
+            // echo print_r(($session->get('user_data'))['élève']['cycle']);
+            if(($session->get('user_data'))['élève']['cycle'] === null)
+            {
+                return redirect('inscription/département');     
+            }
         }
         else
         {
@@ -87,31 +93,8 @@ class LoginController extends BaseController
 
         echo '<pre>';
         echo var_dump($_SESSION);
-        echo '<pre>'; 
+        echo '<pre>';
 
-        // Check le password (si hash)
-        //$pwdVerif = password_verify($password, $user['pwd_utilisateur']);
-        
-        // // Check le password
-        // $pwdVerif = $password == $user['pwd_utilisateur'];
-        // if(! $pwdVerif)
-        // {
-        //     return redirect('/')->withInput()->with('error', 'Utilisateur inconnu ou mauvais mot de passe');
-        // }
-
-        // // Attribution de l'id
-        // $userModel->set_basic_data($user['id_utilisateur']);
-        
-        // $userModel = UtilisateurFactory::upgrade_utilisateur($userModel, $user['id_utilisateur']);
-
-        // // Set de la session avec data utilisateur
-        // // $userData = $userModel->get_data();
-        // $userData = [
-        //     'is_logged' => true,
-        //     'logged_user' => $userModel->get_data()
-        // ];
-        // $session->set($userData);
-        
         // // Menu principal
         // return redirect('menu');
     }

@@ -5,6 +5,7 @@ use App\Controllers\LoginController;
 use App\Controllers\MenuController;
 use App\Controllers\PlanningController;
 use App\Controllers\CoursController;
+use App\Controllers\InscriptionController;
 /**
  * @var RouteCollection $routes
  */
@@ -26,7 +27,10 @@ $routes->get('planning', [PlanningController::class, 'index']);
 /*
  * Routes élève
  */
-
+// Choisir le département
+$routes->get('inscription/département', [InscriptionController::class, 'choix_département']);
+// Choisir un cycle pour lequel postuler
+$routes->get('inscription/departement/(:id)/postuler', [InscriptionController::class, 'choix_cycle/$1']);
 
 /*
  * Routes professeur
