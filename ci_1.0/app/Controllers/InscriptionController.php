@@ -24,9 +24,7 @@ class InscriptionController extends BaseController
 
         $session->set('départements', $deps);
 
-        echo '<pre>';
-        echo var_dump($_SESSION);
-        echo '<pre>';
+        return view('inscription/départements');
     }
 
 }
