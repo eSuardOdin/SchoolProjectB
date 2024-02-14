@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 class CycleModel extends Model
 {
 
-    protected $table            = 'Chefs';
+    protected $table            = 'Cycles';
     protected $primaryKey       = 'id_cycle';
     protected $allowedFields = [
         'nom_cycle',

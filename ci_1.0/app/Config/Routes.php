@@ -30,7 +30,7 @@ $routes->get('planning', [PlanningController::class, 'index']);
 // Choisir le département
 $routes->get('inscription/département', [InscriptionController::class, 'choix_département']);
 // Choisir un cycle pour lequel postuler
-$routes->post('inscription/département', [InscriptionController::class, 'choix_cycle']);
+$routes->post('inscription/cycles', [InscriptionController::class, 'choix_cycle']);
 
 /*
  * Routes professeur
