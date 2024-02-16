@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Entities\Département;
 use CodeIgniter\Controller;
 use App\Models\DépartementModel;
-
+use App\Models\EleveModel;
 class InscriptionController extends BaseController
 {
     public function index() {}
@@ -13,7 +13,7 @@ class InscriptionController extends BaseController
     public function choix_département()
     {
         $session = session();
-        // Redirige si non élève
+        // Redirige si non eleve
         if(!isset(($session->get('user_data'))['élève']))
         {
             return redirect('/');
@@ -48,6 +48,22 @@ class InscriptionController extends BaseController
         $session->set('cycles', $cycles);
 
         return view('inscription/cycles');
+    }
+
+
+    public function inscrire_eleve()
+    {
+        $session = session();
+        // Clean la session
+        $session->remove('cycles');
+
+
+        $id_cycle = (int)($this->request->getVar('cycle'));
+        $id_eleve = (int)($session->get('user_data')['id_utilisateur']);
+        echo $id_cycle . '<br/>' . $id_eleve;
+        $eleveModel = model(EleveModel::class);
+        $eleveModel->eleve_demande_cycle($id_cycle, $id_eleve);
+
     }
 
 }

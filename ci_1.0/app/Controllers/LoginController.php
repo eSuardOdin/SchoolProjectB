@@ -32,6 +32,7 @@ class LoginController extends BaseController
         helper('form');
         // Instance de la session et du model user
         $session = session();
+        $session->remove('user_data');
         $userModel = model(UtilisateurModel::class);
 
         // Variables du post
