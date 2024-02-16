@@ -58,7 +58,11 @@ class LoginController extends BaseController
             // echo print_r(($session->get('user_data'))['élève']['cycle']);
             if(($session->get('user_data'))['élève']['cycle'] === null)
             {
-                return redirect('inscription/département');     
+                if(($session->get('user_data'))['élève']['demande'] === null)
+                {
+                    return redirect('inscription/département');     
+                }
+                echo 'demande en cours';
             }
         }
         else

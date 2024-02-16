@@ -24,10 +24,11 @@ class Eleve extends Utilisateur
         $arr = $user->get_session_infos();
         $arr['élève'] = [];
         $arr['élève']['cycle'] = $this->get_cycle_élève((int)$this->attributes['id_élève']);
+        $arr['élève']['demande'] = $this->get_demande_cycle_élève((int)$this->attributes['id_élève']);
         return $arr;
     }
 
-    // Get le cycle de l'élève
+    // Get le cycle où est inscrit l'élève
     public function get_cycle_élève(int $id): ?array
     {
         $userModel = model(UtilisateurModel::class);
@@ -37,4 +38,15 @@ class Eleve extends Utilisateur
         ->get()
         ->getRowArray();
     }
+
+    // Get la demande de cycle en cours
+    public function get_demande_cycle_élève(int $id): ?array 
+    {
+        $userModel = model(UtilisateurModel::class);
+        return $userModel->db->table('Elèves_Cycles')
+        ->where('id_élève', $id)
+        ->where('demande_cycle', true)
+        ->get()
+        ->getRowArray();
+    } 
 }
