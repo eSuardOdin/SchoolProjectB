@@ -1,16 +1,15 @@
 
 <!--<pre>
- <?= print_r($_SESSION['logged_user'])?> 
+ <?= print_r($_SESSION)?> 
 </pre>
 -->
 
 <!-- NAVBAR DES ROLES -->
 <?php
 // Si l'utilisateur est élève
-    if($_SESSION['logged_user']['role'] === 'élève')
+    if(isset($_SESSION['user_data']['élève']))
     {
-        // echo APPPATH . 'Views/utilisateurs/élève/navbar.php';
-        // include_once(APPPATH . 'Views/utilisateurs/élève/navbar.php');
+        $_SESSION['user_data']['role'] = 'élève';
         echo '
         <table>
             <tr>
@@ -20,21 +19,8 @@
         </table>
         ';
     }
-// Si l'utilisateur est directeur
-    elseif($_SESSION['logged_user']['role'] === 'directeur')
-    {
-        echo '
-        <table>
-            <tr>
-                <td><a href="">Menu</a></td>
-                <td><a href="">Départements</a></td>
-                <td><a href="">Professeurs</a></td>
-            </tr>
-        </table>
-        ';
-    }
 // Si l'utilisateur est professeur
-    elseif($_SESSION['logged_user']['role'] === 'professeur')
+    elseif($_SESSION['user_data']['role'] === 'professeur')
     {
         echo '
         <table>
@@ -60,20 +46,15 @@
 ?>
 
 <!-- Body du menu (infos diverses) -->
-<h2>Bienvenue <?= $_SESSION['logged_user']['user_data']->prénom_utilisateur?> <?= $_SESSION['logged_user']['user_data']->nom_utilisateur?></h2>
-<?php if(isset($_SESSION['logged_user']['chef'])) :?>
+<h2>Bienvenue <?= $_SESSION['user_data']['prénom_utilisateur']?> <?= $_SESSION['user_data']['nom_utilisateur']?></h2>
+<?php if(isset($_SESSION['user_data']['professeur']['chef'])) :?>
     <p>
-        <u>Chef du département <?= $_SESSION['logged_user']['chef']->nom_département ?></u>
+        <u>Chef du département </u>
     </p>
 
-
-<?php elseif(isset($_SESSION['logged_user']['pole'])) :?>
-    <p>
-        Rôle : Directeur du pôle <?= $_SESSION['logged_user']['pole']->nom_pôle ?></u>
-    </p>
 <?php else :?>
     <p>
-        Rôle : <?= $_SESSION['logged_user']['role']?>
+        Rôle : <?= $_SESSION['user_data']['role']?>
     </p>
 <?php endif;?>
 <br/><br/>

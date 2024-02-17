@@ -67,18 +67,8 @@ class LoginController extends BaseController
                 // Si la demande est toujours en cours
                 else
                 {
-                    // Cycle
-                    $cycle = (model(CycleModel::class))->find((int)$session->get('user_data')['élève']['demande']['id_cycle']);
-                    // Nom du département
-                    $depNom = (model(DépartementModel::class)->find($cycle->get_id_departement()))->get_nom_departement();
-
-                    // Rajouter les infos de la demande à afficher dans la session
-                    $newData = $session->get('user_data');
-                    $newData['élève']['demande']['infos'] = $cycle->get_nom_cycle() . " (Département " . $depNom . ")";
-                    $session->set('user_data', $newData);
-                    return view('inscription/demande');
+                    return redirect()->to('inscription/demande/' . $user->get_user_id());
                 }
-                // echo 'demande en cours';
             }
             // Menu d'un élève inscrit dans un cycle
             else
@@ -122,8 +112,8 @@ class LoginController extends BaseController
         echo var_dump($_SESSION);
         echo '<pre>';
 
-        // // Menu principal
-        // return redirect('menu');
+        // Menu principal
+        return redirect('menu');
     }
 
     public function logout()

@@ -22,6 +22,7 @@ class Eleve extends Utilisateur
     {
         $user = $this->get_base_user((int)$this->attributes['id_élève']);
         $arr = $user->get_session_infos();
+        $arr['role'] = 'élève';
         $arr['élève'] = [];
         $arr['élève']['cycle'] = $this->get_cycle_élève((int)$this->attributes['id_élève']);
         $arr['élève']['demande'] = $this->get_demande_cycle_élève((int)$this->attributes['id_élève']);

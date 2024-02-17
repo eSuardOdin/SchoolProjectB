@@ -10,11 +10,7 @@ class MenuController extends BaseController
     {
         log_message('info', 'Entrée dans la gestion du logged test');
         $session = session();
-        if(!$session->has('is_logged'))
-        {
-            return false;
-        }
-        elseif($session->get('is_logged') === null || $session->get('is_logged') == false)
+        if(!$session->has('user_data'))
         {
             return false;
         }

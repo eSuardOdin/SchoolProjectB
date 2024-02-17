@@ -29,6 +29,8 @@ $routes->get('planning', [PlanningController::class, 'index']);
  */
 // Choisir le département
 $routes->get('inscription/département', [InscriptionController::class, 'choix_département']);
+// Voir la demande d'inscription en cours
+$routes->get('inscription/demande/(:num)', [InscriptionController::class, 'voir_demande']);
 // Choisir un cycle pour lequel postuler
 $routes->post('inscription/cycles', [InscriptionController::class, 'choix_cycle']);
 // Validation de l'inscription

@@ -62,18 +62,24 @@ class InscriptionController extends BaseController
         $id_cycle = (int)($this->request->getVar('cycle'));
         $id_eleve = (int)($session->get('user_data')['id_utilisateur']);
         $eleveModel = model(EleveModel::class);
+        // Insertion dans la db
         $eleveModel->eleve_demande_cycle($id_cycle, $id_eleve);
 
+        // Redirection pour traiter la vue
+        return redirect()->to('inscription/demande/' . $id_eleve);
+    }
 
-        // Cycle
-        $cycle = (model(CycleModel::class))->find($id_cycle);
-        // Nom du département
-        $depNom = (model(DépartementModel::class)->find($cycle->get_id_departement()))->get_nom_departement();
 
-        // Rajouter les infos de la demande à afficher dans la session
-        $newData = $session->get('user_data');
-        $newData['élève']['demande']['infos'] = $cycle->get_nom_cycle() . " (Département " . $depNom . ")";
-        $session->set('user_data', $newData);
+    public function voir_demande($idEleve)
+    {
+        $session = session();
+        $idEleve = (int)$idEleve;
+        // Get le cycle demandé
+        $cycle = model(CycleModel::class)->find((int)(model(EleveModel::class)->find($idEleve))->get_demande_cycle_élève($idEleve)['id_cycle']);
+        // Get le nom du département demandé
+        $departement = (model(DépartementModel::class)->find($cycle->get_id_departement()))->get_nom_departement();
+        // Set les infos sur la demande
+        $session->set('demande', $cycle->get_nom_cycle() . ' (' . $departement . ')');
         return view('inscription/demande');
     }
 
