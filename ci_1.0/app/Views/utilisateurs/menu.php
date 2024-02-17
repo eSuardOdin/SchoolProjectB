@@ -30,12 +30,13 @@
                 <td><a href="">Examens</a></td> ';
 
         // Si le professeur est chef
-        if(isset($_SESSION['logged_user']['chef']))
+        if(isset($_SESSION['user_data']['chef']))
         {
             echo '
             <td><a href="">Professeurs</a></td>
             <td><a href="/eleves">Elèves</a></td>
             <td><a href="/cours">Cours</a></td>
+            <td><a href="">Demandes</a></td>
             ';
         }
         echo '

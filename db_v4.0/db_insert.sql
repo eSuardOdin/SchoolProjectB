@@ -186,34 +186,32 @@ INSERT INTO Cycles (nom_cycle, places_cycle, cycle_parent, id_département) VALU
 
 SELECT * FROM Cycles;
 
-
-
---************
---*   TODO   *
---************
 --######################################################
 --Insertion Matières--
 -- Tous les cycles (Jazz)
-INSERT INTO Matières (nom_matière, id_cycle) VALUES
-('Cours individuel instrument', 5),
-('Cours individuel instrument', 6),
-('Cours individuel instrument', 7),
-('Cours individuel instrument', 8),
-('Solfège Jazz', 5),
-('Solfège Jazz', 6),
-('Solfège Jazz', 7),
-('Solfège Jazz', 8),
-('Cours d\'ensemble Jazz', 5),
-('Cours d\'ensemble Jazz', 6),
-('Cours d\'ensemble Jazz', 7),
-('Cours d\'ensemble Jazz', 8);
+INSERT INTO Matières (nom_matière, durée_matière, max_élèves_matière, id_cycle) VALUES
+('Cours individuel instrument', 60, 1, 5),
+('Cours individuel instrument', 60, 1, 6),
+('Cours individuel instrument', 45, 1, 7),
+('Cours individuel instrument', 45, 1, 8),
+('Cours individuel instrument', 30, 1, 9),
+('Solfège Jazz', 60, 0, 5),
+('Solfège Jazz', 60, 0, 6),
+('Solfège Jazz', 60, 0, 7),
+('Solfège Jazz', 60, 0, 8),
+('Cours d\'ensemble Jazz', 90, 0, 5),
+('Cours d\'ensemble Jazz', 90, 0, 6),
+('Cours d\'ensemble Jazz', 90, 0, 7),
+('Cours d\'ensemble Jazz', 90, 0, 8),
+('Atelier d\'écoute Jazz', 60, 0, 9);
 -- Cycles spécifiques (Jazz)
-INSERT INTO Matières (nom_matière, id_cycle) VALUES
-('Histoire du Jazz',5),
-('Atelier Big Band',7),
-('Atelier Big Band',8),
-('Atelier Standard',7),
-('Atelier Standard',8);
+INSERT INTO Matières (nom_matière, durée_matière, max_élèves_matière, id_cycle) VALUES
+('Histoire du Jazz', 60, 0, 8),
+('Atelier Big Band', 90, 0, 7),
+('Atelier Big Band', 90, 0, 6),
+('Atelier Big Band', 90, 0, 5),
+('Atelier Standard', 90, 0, 9),
+('Atelier Standard', 90, 0, 8);
 
 
 --######################################################
@@ -221,31 +219,38 @@ INSERT INTO Matières (nom_matière, id_cycle) VALUES
 -- Jazz
 --Solfège (Evans, Rosenwinkel)
 INSERT INTO Matières_Professeurs(id_matière, id_professeur) VALUES
-(5,5),(5,7),(6,5),(6,7),(7,5),(7,7),(8,5),(8,7);
---Cours d'ensemble (Redman, Blade)
+(6,4),(7,4),(8,4),(9,4),(6,6),(7,6),(8,6),(9,6);
+--Cours d'ensemble (Redman, Pastorius)
 INSERT INTO Matières_Professeurs(id_matière, id_professeur) VALUES
-(9,2),(9,6),(10,2),(10,6),(11,2),(11,6),(12,2),(12,6);
+(13,1),(13,24),(10,1),(10,24),(11,1),(11,24),(12,1),(12,24);
 --Instruments (tous)
 INSERT INTO Matières_Professeurs(id_matière, id_professeur) VALUES
-(1,2),(1,5),(1,6),(1,7),(1,14),(1,15),
-(2,2),(2,5),(2,6),(2,7),(2,14),(2,15),
-(3,2),(3,5),(3,6),(3,7),(3,14),(3,15),
-(4,2),(4,5),(4,6),(4,7),(4,14),(4,15);
+(1,1),(1,4),(1,6),(1,9),(1,10),(1,11),(1,12),(1,13),(1,14),(1,23),(1,24),(1,28),(1,30),(1,31),
+(2,1),(2,4),(2,6),(2,9),(2,10),(2,11),(2,12),(2,13),(2,14),(2,23),(2,24),(2,28),(2,30),(2,31),
+(3,1),(3,4),(3,6),(3,9),(3,10),(3,11),(3,12),(3,13),(3,14),(3,23),(3,24),(3,28),(3,30),(3,31),
+(4,1),(4,4),(4,6),(4,9),(4,10),(4,11),(4,12),(4,13),(4,14),(4,23),(4,24),(4,28),(4,30),(4,31),
+(5,1),(5,4),(5,6),(5,9),(5,10),(5,11),(5,12),(5,13),(5,14),(5,23),(5,24),(5,28),(5,30),(5,31);
 --Histoire du Jazz (Davis)
 INSERT INTO Matières_Professeurs(id_matière, id_professeur) VALUES
-(13,15);
+(15,14);
 --Big Band (Davis)
 INSERT INTO Matières_Professeurs(id_matière, id_professeur) VALUES
-(14,15),(15,15);
+(16,14),(17,14),(18,14);
 --Standard (Evans,LaFaro)
 INSERT INTO Matières_Professeurs(id_matière, id_professeur) VALUES
-(16,14),(16,5),(17,14),(17,5);
+(19,13),(19,4),(20,13),(20,4);
+--Atelier d'écoute (Coltrane)
+INSERT INTO Matières_Professeurs(id_matière, id_professeur) VALUES
+(14,9);
 
 SELECT id_utilisateur, nom_utilisateur, prénom_utilisateur
 FROM Utilisateurs
 WHERE id_utilisateur IN (SELECT P.id_professeur FROM Professeurs AS P INNER JOIN Matières_Professeurs AS M ON
 P.id_professeur = M.id_professeur WHERE M.id_matière = 5);
 
+
+
+-- NOT DONE
 --######################################################
 --Insertion Elèves_Cycles--
 INSERT INTO Elèves_Cycles(id_élève, id_cycle) VALUES
