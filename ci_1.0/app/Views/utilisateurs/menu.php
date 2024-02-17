@@ -1,8 +1,8 @@
 
-<!--<pre>
+<pre>
  <?= print_r($_SESSION)?> 
 </pre>
--->
+
 
 <!-- NAVBAR DES ROLES -->
 <?php
