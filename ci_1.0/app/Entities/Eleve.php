@@ -3,7 +3,9 @@ declare(strict_types=1);
 namespace App\Entities;
 use CodeIgniter\Entity\Entity;
 use App\Models\UtilisateurModel;
-
+use App\Models\CycleModel;
+use App\Models\DépartementModel;
+use App\Entities\Cycle;
 class Eleve extends Utilisateur
 {
     public function __construct(array $data = null)
@@ -25,7 +27,12 @@ class Eleve extends Utilisateur
         $arr['role'] = 'élève';
         $arr['élève'] = [];
         $arr['élève']['cycle'] = $this->get_cycle_élève((int)$this->attributes['id_élève']);
-        $arr['élève']['demande'] = $this->get_demande_cycle_élève((int)$this->attributes['id_élève']);
+        // Check si demande en cours
+        $demande = $this->get_demande_cycle_élève((int)$this->attributes['id_élève']);
+        if($demande !== null)
+        {
+            $arr['élève']['demande'] = $demande;
+        }
         return $arr;
     }
 
@@ -33,11 +40,21 @@ class Eleve extends Utilisateur
     public function get_cycle_élève(int $id): ?array
     {
         $userModel = model(UtilisateurModel::class);
-        return $userModel->db->table('Elèves_Cycles')
+        $cycleEleve = $userModel->db->table('Elèves_Cycles')
         ->where('id_élève', $id)
         ->where('inscrit_cycle', true)
         ->get()
         ->getRowArray();
+
+        $cycle = model(CycleModel::class)->find((int)$cycleEleve['id_cycle']);
+
+        $res = [
+            'id_cycle' => $cycleEleve['id_cycle'],
+            'nom_cycle' => $cycle->get_nom_cycle(),
+            'id_département' => $cycle->get_id_departement(),
+            'nom_département' => (model(DépartementModel::class)->find((int)$cycle->get_id_departement()))->get_nom_departement()
+        ];
+        return $res;
     }
 
     // Get la demande de cycle en cours
