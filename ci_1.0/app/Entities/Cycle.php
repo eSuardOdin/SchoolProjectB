@@ -31,5 +31,6 @@ class Cycle extends Entity
 
 
     public function get_id_cycle(): int { return (int)$this->attributes['id_cycle']; }
+    public function get_id_departement(): int { return (int)$this->attributes['id_département']; }
     public function get_nom_cycle(): string { return $this->attributes['nom_cycle']; }
 }

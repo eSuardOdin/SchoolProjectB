@@ -6,6 +6,8 @@ use App\Models\UtilisateurModel;
 use App\Models\EleveModel;
 use App\Models\ProfesseurModel;
 use App\Models\ChefModel;
+use App\Models\CycleModel;
+use App\Models\DépartementModel;
 
 class LoginController extends BaseController
 {
@@ -55,14 +57,34 @@ class LoginController extends BaseController
         {
             $session->set('user_data', $eleve->append_role());
             // Si l'élève n'est pas dans un cycle
-            // echo print_r(($session->get('user_data'))['élève']['cycle']);
             if(($session->get('user_data'))['élève']['cycle'] === null)
             {
+                // Si l'élève n'a pas encore fait de demande de cycle
                 if(($session->get('user_data'))['élève']['demande'] === null)
                 {
                     return redirect('inscription/département');     
                 }
-                echo 'demande en cours';
+                // Si la demande est toujours en cours
+                else
+                {
+                    // Cycle
+                    $cycle = (model(CycleModel::class))->find((int)$session->get('user_data')['élève']['demande']['id_cycle']);
+                    // Nom du département
+                    $depNom = (model(DépartementModel::class)->find($cycle->get_id_departement()))->get_nom_departement();
+
+                    // Rajouter les infos de la demande à afficher dans la session
+                    $newData = $session->get('user_data');
+                    $newData['élève']['demande']['infos'] = $cycle->get_nom_cycle() . " (Département " . $depNom . ")";
+                    $session->set('user_data', $newData);
+                    return view('inscription/demande');
+                }
+                // echo 'demande en cours';
+            }
+            // Menu d'un élève inscrit dans un cycle
+            else
+            {
+
+
             }
         }
         else
