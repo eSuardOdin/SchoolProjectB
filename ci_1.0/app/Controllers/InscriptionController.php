@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Entities\Département;
 use CodeIgniter\Controller;
+use App\Models\CycleModel;
 use App\Models\DépartementModel;
 use App\Models\EleveModel;
 class InscriptionController extends BaseController
@@ -60,10 +61,20 @@ class InscriptionController extends BaseController
 
         $id_cycle = (int)($this->request->getVar('cycle'));
         $id_eleve = (int)($session->get('user_data')['id_utilisateur']);
-        echo $id_cycle . '<br/>' . $id_eleve;
         $eleveModel = model(EleveModel::class);
         $eleveModel->eleve_demande_cycle($id_cycle, $id_eleve);
 
+
+        // Cycle
+        $cycle = (model(CycleModel::class))->find($id_cycle);
+        // Nom du département
+        $depNom = (model(DépartementModel::class)->find($cycle->get_id_departement()))->get_nom_departement();
+
+        // Rajouter les infos de la demande à afficher dans la session
+        $newData = $session->get('user_data');
+        $newData['élève']['demande']['infos'] = $cycle->get_nom_cycle() . " (Département " . $depNom . ")";
+        $session->set('user_data', $newData);
+        return view('inscription/demande');
     }
 
 }
