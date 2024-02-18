@@ -48,3 +48,4 @@ $routes->get('cours', [CoursController::class, 'index']);
 $routes->get('eleve', [CoursController::class, 'index']);
 // Voir les demandes
 $routes->get('demandes', [InscriptionController::class, 'afficher_demandes']);
+$routes->post('traiter_demande', [InscriptionController::class, 'traiter_demande']);

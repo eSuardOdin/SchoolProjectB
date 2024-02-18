@@ -128,6 +128,7 @@ class InscriptionController extends BaseController
             $cycle = model(CycleModel::class)->find($idCycle);
             // Nom
             $nomCycle = $cycle->get_nom_cycle();
+            $res[$demande['id_cycle']]['id_cycle'] = $idCycle; // Redondant... à améliorer
             $res[$demande['id_cycle']]['nom_cycle'] = $nomCycle;
             // Places
             $placeCycle = $cycle->get_places_cycle();
@@ -150,23 +151,7 @@ class InscriptionController extends BaseController
                 }
             }
         }
-        /* Renvoyer :
-        Demande {
-            [id_cycle] : {
-                nom_cycle : "nom du cycle",
-                places_restantes : places,
-                élèves : {
-                    [id_élève] : {
-                        nom : "nom",
-                        prénom : "prénom",
-                        instrument : "nom instrument"
-                    }
-                }
-            }
-        }
-        */
         return $res;
-        // return $demandes;
     }
 
     public function afficher_demandes()
@@ -182,6 +167,37 @@ class InscriptionController extends BaseController
         $departement = (int)$_SESSION['user_data']['professeur']['chef']['id_département']; 
         $session->set('demandes', $this->get_demandes($departement));
         return view('utilisateurs/professeur/chef/demandes');
+    }
+
+
+    public function traiter_demande()
+    {
+        $idCycle = $this->request->getVar('id_cycle');
+        $idEleve = $this->request->getVar('id_élève');
+        echo 'Elève : ' . $idEleve . ' Cycle : ' . $idCycle;
+        echo '<br/>';
+        echo 'Action : ' . $this->request->getVar('action');
+
+        $action = $this->request->getVar('action');
+        $model = model(Model::class);
+        // Accepter élève (update demande et inscrit)
+        if($action === "Accepter")
+        {
+            $model->db->table('Elèves_Cycles')
+            ->where('id_cycle = ' . $idCycle . ' AND `id_élève` = ' . $idEleve)
+            ->set([
+                'demande_cycle' => false,
+                'inscrit_cycle' => true
+            ])
+            ->update();
+        }
+        // Refuser (supprimer l'entrée, faute de mieux pour le moment)
+        else
+        {
+            $model->db->table('Elèves_Cycles')
+            ->where('id_cycle = ' . $idCycle . ' AND `id_élève` = ' . $idEleve)
+            ->delete();
+        }
     }
 
 }
