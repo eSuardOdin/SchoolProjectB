@@ -3,10 +3,14 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Entities\Département;
+use App\Entities\Cycle;
+use App\Entities\Eleve;
 use CodeIgniter\Controller;
 use App\Models\CycleModel;
 use App\Models\DépartementModel;
 use App\Models\EleveModel;
+use CodeIgniter\Model;
+
 class InscriptionController extends BaseController
 {
     public function index() 
@@ -88,17 +92,87 @@ class InscriptionController extends BaseController
 
     /**
      * Obtenir toutes les demandes d'inscription en cours
+     * dans un département
      */
-    private function get_demandes(): array
+    private function get_demandes(int $id_dep): array
     {
-        $arr = model(EleveModel::class)->db->table('Elèves_Cycles')->get()->getResultArray();
-        return $arr;
+        $model = model(Model::class);
+        /* Find les id's des cycles du département
+           pour trier les demandes */
+        $cycles = $model->db->table('Cycles')
+        ->select('`id_cycle`')
+        ->where('`id_département` = ' . $id_dep);
+
+        // Trier les demandes
+        $demandes = model(EleveModel::class)->db->table('Elèves_Cycles')
+        ->whereIn('`Elèves_Cycles`.`id_cycle`', $cycles)
+        ->where('demande_cycle', true)
+        ->orderBy('id_cycle')
+        ->get()
+        ->getResultArray();
+        
+        $res = [];
+        
+        // Les id des cycles demandés deviennent des clé de tableau
+        foreach ($demandes as $demande) {
+            if(!isset($res[$demande['id_cycle']]))
+            {
+                $res[$demande['id_cycle']] = [];
+                // Get l'entity Cycle
+                $idCycle = (int)$demande['id_cycle'];
+                $cycle = model(CycleModel::class)->find($idCycle);
+                // Nom
+                $nomCycle = $cycle->get_nom_cycle();
+                $res[$demande['id_cycle']]['nom_cycle'] = $nomCycle;
+                // Places
+                $placeCycle = $cycle->get_places_cycle();
+                $res[$demande['id_cycle']]['places_restantes'] = $placeCycle;
+                // Elèves
+                $res[$demande['id_cycle']]['élèves'] = [];
+                foreach ($demandes as $innerDemande) {
+                    if($innerDemande['id_cycle'] === $demande['id_cycle'])
+                    {
+                        $eleveEntry = [];
+                        $eleve = model(EleveModel::class)->find((int)$demande['id_élève']);
+                        $eleveEntry['nom'] = $eleve->get_nom();
+
+                        $res[$demande['id_cycle']]['élèves'][$demande['id_élève']] = $eleveEntry;
+                    }
+                }
+
+            }
+        }
+        /* Renvoyer :
+        Demande {
+            [id_cycle] : {
+                nom_cycle : "nom du cycle",
+                places_restantes : places,
+                élèves : {
+                    [id_élève] : {
+                        nom : "nom",
+                        prénom : "prénom",
+                        instrument : "nom instrument"
+                    }
+                }
+            }
+        }
+        */
+        return $res;
+        // return $demandes;
     }
 
     public function afficher_demandes()
     {
         $session = session();
-        $session->set('demandes', $this->get_demandes());
+        // Redirect si non chef
+        if(!isset($_SESSION['user_data']['professeur']['chef']))
+        {
+            return redirect()->to('menu');
+        }
+
+        // Get l'id du departement concerné
+        $departement = (int)$_SESSION['user_data']['professeur']['chef']['id_département']; 
+        $session->set('demandes', $this->get_demandes($departement));
         return view('utilisateurs/professeur/chef/demandes');
     }
 

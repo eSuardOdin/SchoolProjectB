@@ -60,7 +60,7 @@ class LoginController extends BaseController
             if(($session->get('user_data'))['élève']['cycle'] === null)
             {
                 // Si l'élève n'a pas encore fait de demande de cycle
-                if(($session->get('user_data'))['élève']['demande'] === null)
+                if(!isset ($_SESSION['user_data']['élève']['demande']))
                 {
                     return redirect('inscription/département');     
                 }

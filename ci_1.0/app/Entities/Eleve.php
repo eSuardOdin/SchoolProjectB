@@ -19,6 +19,23 @@ class Eleve extends Utilisateur
         return $userModel->where('id_utilisateur', $id)->first();
     }
 
+
+
+    // Getters
+
+    /**
+     * Pour return l'utilisateur de base
+     *  */
+    private function get_user(): Utilisateur 
+    {
+        return model(UtilisateurModel::class)->find((int)$this->attributes['id_élève']);
+    }
+    public function get_nom() 
+    {
+        return $this->get_user()->get_nom();
+    }
+
+
     // Permet de rajouter le rôle dans les user_data de la session
     public function append_role(): array
     {
@@ -46,15 +63,18 @@ class Eleve extends Utilisateur
         ->get()
         ->getRowArray();
 
-        $cycle = model(CycleModel::class)->find((int)$cycleEleve['id_cycle']);
-
-        $res = [
-            'id_cycle' => $cycleEleve['id_cycle'],
-            'nom_cycle' => $cycle->get_nom_cycle(),
-            'id_département' => $cycle->get_id_departement(),
-            'nom_département' => (model(DépartementModel::class)->find((int)$cycle->get_id_departement()))->get_nom_departement()
-        ];
-        return $res;
+        if($cycleEleve !== null)
+        {
+            $cycle = model(CycleModel::class)->find((int)$cycleEleve['id_cycle']);
+            $res = [
+                'id_cycle' => $cycleEleve['id_cycle'],
+                'nom_cycle' => $cycle->get_nom_cycle(),
+                'id_département' => $cycle->get_id_departement(),
+                'nom_département' => (model(DépartementModel::class)->find((int)$cycle->get_id_departement()))->get_nom_departement()
+            ];
+            return $res;
+        }
+        return null;
     }
 
     // Get la demande de cycle en cours

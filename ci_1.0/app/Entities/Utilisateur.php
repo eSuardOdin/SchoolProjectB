@@ -25,4 +25,12 @@ class Utilisateur extends Entity
     {
         return $this->attributes['pwd_utilisateur'] == $pwd;
     }
+
+
+
+    // Getters
+    protected function get_nom()
+    {
+        return $this->attributes['nom_utilisateur'];
+    }
 }
