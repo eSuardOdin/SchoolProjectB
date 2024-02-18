@@ -117,30 +117,34 @@ class InscriptionController extends BaseController
         foreach ($demandes as $demande) {
             if(!isset($res[$demande['id_cycle']]))
             {
-                $res[$demande['id_cycle']] = [];
-                // Get l'entity Cycle
-                $idCycle = (int)$demande['id_cycle'];
-                $cycle = model(CycleModel::class)->find($idCycle);
-                // Nom
-                $nomCycle = $cycle->get_nom_cycle();
-                $res[$demande['id_cycle']]['nom_cycle'] = $nomCycle;
-                // Places
-                $placeCycle = $cycle->get_places_cycle();
-                $res[$demande['id_cycle']]['places_restantes'] = $placeCycle;
+                $res[$demande['id_cycle']] = []; 
+            }
+            // Get l'entity Cycle
+            $idCycle = (int)$demande['id_cycle'];
+            $cycle = model(CycleModel::class)->find($idCycle);
+            // Nom
+            $nomCycle = $cycle->get_nom_cycle();
+            $res[$demande['id_cycle']]['nom_cycle'] = $nomCycle;
+            // Places
+            $placeCycle = $cycle->get_places_cycle();
+            $res[$demande['id_cycle']]['places_restantes'] = $placeCycle;
+            if(!isset($res[$demande['id_cycle']]['élèves']))
+            {
                 // Elèves
                 $res[$demande['id_cycle']]['élèves'] = [];
-                foreach ($demandes as $innerDemande) {
-                    if($innerDemande['id_cycle'] === $demande['id_cycle'])
-                    {
-                        $eleveEntry = [];
-                        $eleve = model(EleveModel::class)->find((int)$demande['id_élève']);
-                        $eleveEntry['nom'] = $eleve->get_nom();
-
-                        $res[$demande['id_cycle']]['élèves'][$demande['id_élève']] = $eleveEntry;
-                    }
-                }
-
             }
+            foreach ($demandes as $innerDemande) {
+                if($innerDemande['id_cycle'] === $demande['id_cycle'])
+                {
+                    $eleveEntry = [];
+                    $eleve = model(EleveModel::class)->find((int)$demande['id_élève']);
+                    $eleveEntry['nom'] = $eleve->get_nom();
+
+                    $res[$demande['id_cycle']]['élèves'][$demande['id_élève']] = $eleveEntry;
+                }
+            }
+
+            
         }
         /* Renvoyer :
         Demande {
