@@ -33,4 +33,16 @@ class Utilisateur extends Entity
     {
         return $this->attributes['nom_utilisateur'];
     }
+    protected function get_prénom()
+    {
+        return $this->attributes['prénom_utilisateur'];
+    }
+    protected function get_id_instrument()
+    {
+        return $this->attributes['id_instrument'];
+    }
+    protected function get_login()
+    {
+        return $this->attributes['login_utilisateur'];
+    }
 }

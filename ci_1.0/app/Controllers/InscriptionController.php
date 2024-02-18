@@ -2,13 +2,17 @@
 declare(strict_types=1);
 namespace App\Controllers;
 
+use CodeIgniter\Controller;
+// Entities
 use App\Entities\Département;
 use App\Entities\Cycle;
 use App\Entities\Eleve;
-use CodeIgniter\Controller;
+use App\Entities\Instrument;
+// Models
 use App\Models\CycleModel;
 use App\Models\DépartementModel;
 use App\Models\EleveModel;
+use App\Models\InstrumentModel;
 use CodeIgniter\Model;
 
 class InscriptionController extends BaseController
@@ -138,13 +142,13 @@ class InscriptionController extends BaseController
                 {
                     $eleveEntry = [];
                     $eleve = model(EleveModel::class)->find((int)$demande['id_élève']);
+                    $eleveEntry['id'] = (int)$demande['id_élève']; // Redondant... à améliorer
                     $eleveEntry['nom'] = $eleve->get_nom();
-
+                    $eleveEntry['prénom'] = $eleve->get_prénom();
+                    $eleveEntry['instrument'] = (model(InstrumentModel::class)->find($eleve->get_id_instrument()))->get_nom_instrument();
                     $res[$demande['id_cycle']]['élèves'][$demande['id_élève']] = $eleveEntry;
                 }
             }
-
-            
         }
         /* Renvoyer :
         Demande {

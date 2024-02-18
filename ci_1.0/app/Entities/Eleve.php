@@ -34,7 +34,18 @@ class Eleve extends Utilisateur
     {
         return $this->get_user()->get_nom();
     }
-
+    public function get_prénom() 
+    {
+        return $this->get_user()->get_prénom();
+    }
+    public function get_id_instrument()
+    {
+        return $this->get_user()->get_id_instrument();
+    }
+    public function get_login()
+    {
+        return $this->get_user()->get_login();
+    }
 
     // Permet de rajouter le rôle dans les user_data de la session
     public function append_role(): array
