@@ -108,9 +108,9 @@ class LoginController extends BaseController
             }
         }
 
-        echo '<pre>';
-        echo var_dump($_SESSION);
-        echo '<pre>';
+        // echo '<pre>';
+        // echo var_dump($_SESSION);
+        // echo '<pre>';
 
         // Menu principal
         return redirect('menu');

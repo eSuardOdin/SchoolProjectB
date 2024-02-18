@@ -1,7 +1,4 @@
 
-<pre>
- <?= print_r($_SESSION)?> 
-</pre>
 
 
 <!-- NAVBAR DES ROLES -->
@@ -30,13 +27,13 @@
                 <td><a href="">Examens</a></td> ';
 
         // Si le professeur est chef
-        if(isset($_SESSION['user_data']['chef']))
+        if(isset($_SESSION['user_data']['professeur']['chef']))
         {
             echo '
             <td><a href="">Professeurs</a></td>
             <td><a href="/eleves">Elèves</a></td>
             <td><a href="/cours">Cours</a></td>
-            <td><a href="">Demandes</a></td>
+            <td><a href="/demandes">Demandes</a></td>
             ';
         }
         echo '
@@ -50,7 +47,7 @@
 <h2>Bienvenue <?= $_SESSION['user_data']['prénom_utilisateur']?> <?= $_SESSION['user_data']['nom_utilisateur']?></h2>
 <?php if(isset($_SESSION['user_data']['professeur']['chef'])) :?>
     <p>
-        <u>Chef du département </u>
+        <u>Chef du département <?= $_SESSION['user_data']['professeur']['chef']['nom_département']?></u>
     </p>
 
 <?php else :?>

@@ -46,3 +46,5 @@ $routes->post('inscription/validation', [InscriptionController::class, 'inscrire
  */
 $routes->get('cours', [CoursController::class, 'index']);
 $routes->get('eleve', [CoursController::class, 'index']);
+// Voir les demandes
+$routes->get('demandes', [InscriptionController::class, 'afficher_demandes']);

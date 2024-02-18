@@ -9,7 +9,9 @@ use App\Models\DépartementModel;
 use App\Models\EleveModel;
 class InscriptionController extends BaseController
 {
-    public function index() {}
+    public function index() 
+    {
+    }
 
     public function choix_département()
     {
@@ -81,6 +83,23 @@ class InscriptionController extends BaseController
         // Set les infos sur la demande
         $session->set('demande', $cycle->get_nom_cycle() . ' (' . $departement . ')');
         return view('inscription/demande');
+    }
+
+
+    /**
+     * Obtenir toutes les demandes d'inscription en cours
+     */
+    private function get_demandes(): array
+    {
+        $arr = model(EleveModel::class)->db->table('Elèves_Cycles')->get()->getResultArray();
+        return $arr;
+    }
+
+    public function afficher_demandes()
+    {
+        $session = session();
+        $session->set('demandes', $this->get_demandes());
+        return view('utilisateurs/professeur/chef/demandes');
     }
 
 }
