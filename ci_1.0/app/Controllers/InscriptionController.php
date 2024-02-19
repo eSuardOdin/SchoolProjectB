@@ -12,6 +12,7 @@ use App\Entities\Instrument;
 use App\Models\CycleModel;
 use App\Models\DépartementModel;
 use App\Models\EleveModel;
+use App\Models\UtilisateurModel;
 use App\Models\InstrumentModel;
 use CodeIgniter\Model;
 
@@ -20,7 +21,10 @@ class InscriptionController extends BaseController
     public function index() 
     {
     }
-
+    /**
+     * L'élève choisit un département où son
+     * instrument est enseigné 
+     */
     public function choix_département()
     {
         $session = session();
@@ -29,9 +33,24 @@ class InscriptionController extends BaseController
         {
             return redirect('/');
         }
-        $depModel = model(DépartementModel::class);
-        $deps = $depModel->findAll();
 
+        $db = model(Model::class)->db;
+        // Get l'id instrument
+        $idInstrument = (int)($db->table('Utilisateurs')
+        ->select('id_instrument')
+        ->where('id_utilisateur = ', (int)($session->get('user_data'))['id_utilisateur'])
+        ->get()
+        ->getRowArray())['id_instrument'];
+        
+        $idDeps = $db->table('Départements_Instruments')
+        ->select('id_département')
+        ->where('id_instrument = ', $idInstrument);
+        
+        $deps = $db->table('Départements')
+        ->whereIn('`Départements`.`id_département`', $idDeps)
+        ->get()
+        ->getResultArray();
+        
         $session->set('départements', $deps);
 
         return view('inscription/départements');
