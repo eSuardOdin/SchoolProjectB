@@ -23,7 +23,8 @@ $routes->post('logout', [LoginController::class, 'logout']);
 $routes->get('menu', [MenuController::class, 'index']);
 // Planning
 $routes->get('planning', [PlanningController::class, 'index']);
-
+// Inscription (élève)
+$routes->get('inscription', [InscriptionController::class, 'index']);
 /*
  * Routes élève
  */

@@ -20,7 +20,32 @@ class InscriptionController extends BaseController
 {
     public function index() 
     {
+        // Si l'utilisateur est déjà connecté, retour au menu
+        $session = session();
+        if($session->has('user_data'))
+        {
+            return redirect('menu');
+        }
+
+        // Ajout des familles d'instruments dans la session
+        $instrumentModel = model(InstrumentModel::class);
+        $familles = $instrumentModel->db->table('Instruments')
+        ->select('famille_instrument')
+        ->distinct()
+        ->get()
+        ->getResultArray();
+
+        $oneDimensionFamille = [];
+        foreach ($familles as $famille) {
+            array_push($oneDimensionFamille, $famille['famille_instrument']);
+        }
+        $session->set('famille_instrument', $oneDimensionFamille);
+        return view('inscription/utilisateur');
     }
+
+
+
+
     /**
      * L'élève choisit un département où son
      * instrument est enseigné 
