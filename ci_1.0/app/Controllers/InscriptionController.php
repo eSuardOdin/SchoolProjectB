@@ -244,4 +244,33 @@ class InscriptionController extends BaseController
         }
     }
 
+
+    public function get_instruments()
+    {
+        // Get la famille
+        $famille =$this->request->getVar('famille_instrument');
+        $session = session();
+        // On vide les anciens instruments
+        if($session->has('instruments'))
+        {
+            $session->remove('instruments');
+        }
+        $instruments = model(InstrumentModel::class)->db->table('Instruments')
+        ->where('famille_instrument', $famille)
+        ->get()
+        ->getResultArray();
+        
+        $res = "";
+        // Création des options du select à return
+        foreach ($instruments as $instrument)
+        {
+            $res .= '
+            <option value="' . $instrument['id_instrument'] . '">' 
+                . $instrument['nom_instrument'] 
+            . '</option>';
+        }
+
+        echo $res;
+    }
+
 }

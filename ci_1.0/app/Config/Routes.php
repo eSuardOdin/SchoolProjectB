@@ -25,6 +25,8 @@ $routes->get('menu', [MenuController::class, 'index']);
 $routes->get('planning', [PlanningController::class, 'index']);
 // Inscription (élève)
 $routes->get('inscription', [InscriptionController::class, 'index']);
+// Get les choix d'instrument (AJAX inscription élève)
+$routes->post('inscription/get_instruments', [InscriptionController::class, 'get_instruments']);
 /*
  * Routes élève
  */
