@@ -11,6 +11,8 @@ class UtilisateurModel extends Model{
         'nom_utilisateur',
         'prénom_utilisateur',
         'pwd_utilisateur',
+        'login_utilisateur',
+        'id_instrument'
     ];
 
     protected $useAutoIncrement = true;

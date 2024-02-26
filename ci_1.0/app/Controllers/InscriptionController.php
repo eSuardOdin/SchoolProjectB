@@ -46,7 +46,30 @@ class InscriptionController extends BaseController
         return view('inscription/utilisateur');
     }
 
+    /**
+     * Inscription de l'utilisateur 
+     */
+    public function inscrire_utilisateur()
+    {
+        $nom = $this->request->getVar("nom");
+        $prenom = $this->request->getVar("prénom");
+        $login = $this->request->getVar("login");
+        $pwd = $this->request->getVar("pwd");
+        $idInstrument = $this->request->getVar("instrument_id");
+        $data = [
+            'nom_utilisateur' => $nom,
+            'prénom_utilisateur' => $prenom,
+            'login_utilisateur' => $login,
+            'pwd_utilisateur' => $pwd,
+            'id_instrument' => $idInstrument
+        ];
+        $new_user_id = model(UtilisateurModel::class)->insert($data);
 
+        $user = model(UtilisateurModel::class)->find($new_user_id);
+        echo '<pre>';
+        echo print_r($user);
+        echo '</pre>';
+    }
 
 
     /**

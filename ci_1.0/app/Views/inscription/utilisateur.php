@@ -16,9 +16,8 @@
     function getInstruments()
     {
         var famille = document.getElementById('famille_instrument').value;
-        var test = document.getElementById('test');
         var req = new XMLHttpRequest();
-        req.open("POST", "/inscription/get_instruments", true);
+        req.open("POST", "/inscription/get_instruments", false);
         req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         req.onreadystatechange = () => {
             if (req.readyState == 4) {
@@ -42,19 +41,26 @@
     function prePostValidation()
     {
         // Check password :
-        var pwd = document.getElementById('pwd');
-        var pwdConf = document.getElementById('pwd_confirmation');
-        if(pwd.value != "" && pwdConf.value != "" && pwdConf.value != pwd.value)
+        if(!checkPassword())
         {
             alert("Les mots de passe ne correspondent pas !");
             return false;
         }
-        var instrument = document.getElementById('instrument').value;
-        // alert(instrument);
-
-        console.log("Avant ajax");
-
-        // Ajax pour le login
+        // Check instrument: 
+        if(!checkInstrument())
+        {
+            alert("Veuillez selectionner votre instrument !");
+            return false;
+        }
+        if(!checkSpecialChars())
+        {
+            alert("Les caractères {}[]\<>#@+()'\"/ sont interdits");
+            return false;
+        }
+        // var instr = document.getElementById('instrument').value;
+        // alert(instr);
+        // return false;
+        // Ajax pour check le login
         var login = document.getElementById('login').value;
         var req = new XMLHttpRequest();
         req.open("POST", "/inscription/check_login", true);
@@ -64,31 +70,68 @@
             if(req.readyState == 4) {
                 if (req.status == 200)
                 {
-                    alert(req.responseText.substring(0,1));
-                    if (req.responseText.substring(0,1) == '1') {
+                    if (req.responseText.substring(0,1) == '1') // Valeur de retour dans le controller php
+                    {
                         alert(`Le pseudo ${login} existe déjà !`);
                         return false;
                     }
                     else {
-                        // Submit si ok
-                        document.getElementById('formulaire').submit();
+
+                        // Ajout de l'id de l'instrument au form avant le submit
+                        var form = document.getElementById('formulaire');
+                        var input = document.createElement('input');
+                        input.setAttribute('name', 'instrument_id');
+                        input.setAttribute('value', document.getElementById('instrument').value);
+                        input.setAttribute('type', "hidden")
+                        form.appendChild(input);
+                        
+                        form.submit();
                     }
                 }
                 else {
-                    console.log("PAS OK DU TOUT");
+                    console.log("Erreur de connexion.");
                 }
             }
         }
         req.send("login="+login);
     }
 
+    function checkPassword()
+    {
+        var pwd = document.getElementById('pwd');
+        var pwdConf = document.getElementById('pwd_confirmation');
+        return (pwd.value != "" && pwdConf.value != "" && pwdConf.value == pwd.value);
+    }
 
+    function checkInstrument()
+    {
+        var instrument = document.getElementById('instrument').value;
+        return (instrument != "");
+    }
+
+    function checkSpecialChars()
+    {
+        var pwd = document.getElementById('pwd').value;
+        var pwdConf = document.getElementById('pwd_confirmation').value;
+        var nom = document.getElementById('nom').value;
+        var prenom = document.getElementById('prénom').value;
+        var login = document.getElementById('login').value;
+        var reg = /.*[\{\}\[\]\\<>#@+\(\)\/"']+.*/;
+        // Return false si au moins un match
+        return !(reg.test(pwd) 
+        || reg.test(pwdConf)
+        || reg.test(nom)
+        || reg.test(prenom)
+        || reg.test(login));
+    }
 </script>
 
 <!-- Ne marche pas encore
 <head>
     <link rel="stylesheet" type="text/css" href="<?= base_url('public/css/styles.css'); ?>">
 </head> -->
+
+
 <body onload="initForm()">
     <form method="post" id="formulaire" action ="inscription/utilisateur">
         <label for="nom">Nom : </label>
@@ -119,12 +162,9 @@
             }
         ?>
         </select>
-        <select id="instrument" required="required">
-        
-        </select>
-
+        <select id="instrument" required="required"></select>
+        <br/>
         <input type="submit" value="S'inscrire"/>
-        <!--<input type="submit" value="S'inscrire" onclick="return prePostValidation()"/>-->
     </form>
     <?php
     if(isset($_SESSION['error']))
