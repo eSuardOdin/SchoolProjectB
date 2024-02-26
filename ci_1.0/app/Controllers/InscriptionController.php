@@ -20,6 +20,9 @@ class InscriptionController extends BaseController
 {
     public function index() 
     {
+        helper('url');
+
+
         // Si l'utilisateur est déjà connecté, retour au menu
         $session = session();
         if($session->has('user_data'))
@@ -244,7 +247,10 @@ class InscriptionController extends BaseController
         }
     }
 
-
+    /**
+     * Renvoie la liste des instruments de la famille reçue en post
+     * pour pouvoir l'afficher dans le formulaire d'inscription.
+     */
     public function get_instruments()
     {
         // Get la famille
@@ -273,4 +279,12 @@ class InscriptionController extends BaseController
         echo $res;
     }
 
+    public function check_login()
+    {
+        $login = $this->request->getVar("login");
+        $loginDb = model(UtilisateurModel::class)->get_by_login($login);
+        if($loginDb != null) {
+            echo "1";
+        }
+    }
 }

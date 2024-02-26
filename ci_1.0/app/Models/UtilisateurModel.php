@@ -15,5 +15,13 @@ class UtilisateurModel extends Model{
 
     protected $useAutoIncrement = true;
     protected $returnType     = \App\Entities\Utilisateur::class;
-    protected bool $allowEmptyInserts = false; 
+    protected bool $allowEmptyInserts = false;
+
+    public function get_by_login($login)
+    {
+        return $this->db->table('Utilisateurs')
+        ->where('login_utilisateur', $login)
+        ->get()
+        ->getRowArray();
+    }
 }

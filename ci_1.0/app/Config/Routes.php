@@ -27,6 +27,8 @@ $routes->get('planning', [PlanningController::class, 'index']);
 $routes->get('inscription', [InscriptionController::class, 'index']);
 // Get les choix d'instrument (AJAX inscription élève)
 $routes->post('inscription/get_instruments', [InscriptionController::class, 'get_instruments']);
+// Check la non duplication du login (AJAX inscription élève)
+$routes->post('inscription/check_login', [InscriptionController::class, 'check_login']);
 /*
  * Routes élève
  */
