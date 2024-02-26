@@ -43,5 +43,13 @@
         <select id="instrument">
         
         </select>
+
+        
     </form>
+    <?php
+    if(isset($_SESSION['error']))
+    {
+        echo '<p>' . $_SESSION['error'] . '</p>';
+    }
+    ?>
 </body>
