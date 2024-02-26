@@ -17,6 +17,7 @@ use App\Controllers\InscriptionController;
 $routes->get('/', [LoginController::class, 'index']);
 // Connexion check
 $routes->post('login', [LoginController::class, 'authenticate']);
+$routes->get('login', [LoginController::class, 'authenticate']);
 // Déconnexion
 $routes->post('logout', [LoginController::class, 'logout']);
 // Menu principal

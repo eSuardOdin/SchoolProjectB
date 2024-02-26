@@ -63,12 +63,28 @@ class InscriptionController extends BaseController
             'pwd_utilisateur' => $pwd,
             'id_instrument' => $idInstrument
         ];
+        // Insertion user et élève
         $new_user_id = model(UtilisateurModel::class)->insert($data);
+        $data_eleve = [
+            "id_élève" => $new_user_id
+        ];
+        $eleve_id = model(EleveModel::class)->insert($data_eleve);
 
-        $user = model(UtilisateurModel::class)->find($new_user_id);
+        // Get les data élève
+        $user = model(UtilisateurModel::class)->find($eleve_id);
+
         echo '<pre>';
         echo print_r($user);
         echo '</pre>';
+
+        // Redirection vers le login controller
+        $session = session();
+        $data = [
+            'login' => $login,
+            'password' => $pwd
+        ];
+        $session->set('identifiants', $data);
+        return redirect()->to('login');
     }
 
 

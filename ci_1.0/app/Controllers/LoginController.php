@@ -36,10 +36,20 @@ class LoginController extends BaseController
         $session = session();
         $session->remove('user_data');
         $userModel = model(UtilisateurModel::class);
-
-        // Variables du post
+        
         $login = $this->request->getVar('login');
         $password = $this->request->getVar('password');
+
+        // Si on arrive de l'inscription
+        if($login === null && $password === null)
+        {
+            $login = $session->get('identifiants')['login'];
+            $password = $session->get('identifiants')['password'];
+            $session->remove('identifiants');
+        }
+        
+
+        
 
         // Get l'utilisateur dans la db
         $user = $userModel->where('login_utilisateur', $login)->first();
