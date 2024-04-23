@@ -85,5 +85,14 @@ class CoursController extends BaseController
             else { return redirect('menu'); }
         }
     }
+
+
+    // Traitement de l'ajout d'une matière
+    public function traiter_ajout_matière()
+    {
+        echo '<pre>';
+        echo print_r($this->request);
+        echo '</pre>';
+    }
     
 }

@@ -26,4 +26,5 @@ $session->remove('cycles');
     <label for="max_élèves_matière"><i>(optionnel) </i>Nombre d'élèves max</label>
     <input id="max_élèves_matière" name="max_élèves_matière" type="number" placeholder="0" min="0" max="20"/>
     <br/>
+    <input type="submit" value="Ajouter une matière"/>
 </form>
