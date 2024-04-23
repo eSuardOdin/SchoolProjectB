@@ -1,6 +1,7 @@
 <?php 
 namespace App\Controllers;
 
+use App\Entities\Matière;
 use App\Models\DépartementModel;
 use CodeIgniter\Controller;
 use App\Models\ChefModel;
@@ -90,9 +91,20 @@ class CoursController extends BaseController
     // Traitement de l'ajout d'une matière
     public function traiter_ajout_matière()
     {
+        
+        $matière_model = new MatièreModel();
+        // Create
+        $matière = new Matière();
+        $matière->nom_matière = $this->request->getVar('nom_matière');
+        $matière->max_élève_matière = $this->request->getVar('max_élèves_matière');
+        $matière->durée_matière = $this->request->getVar('durée_matière');
+        $matière->id_cycle = $this->request->getVar('id_cycle');
+        
         echo '<pre>';
-        echo print_r($this->request);
+        echo print_r($matière);
         echo '</pre>';
+        // Sauvegarde de la matière
+        $matière_model->save($matière);
     }
     
 }

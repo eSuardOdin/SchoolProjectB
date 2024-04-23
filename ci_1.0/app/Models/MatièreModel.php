@@ -9,9 +9,12 @@ class MatièreModel extends Model{
 
     protected $allowedFields = [
         'nom_matière',
+        'durée_matière',
+        'max_élèves_matière',
         'id_cycle'
     ];
-
+    protected $primaryKey       = 'id_matière';
+    protected $returnType = \App\Entities\Matière::class;
     // Get une matière, sera utilisée dans l'onglet cours du chef de departement
     public function get_matière($id)
     {
