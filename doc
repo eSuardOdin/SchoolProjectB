@@ -1,0 +1,23 @@
+Entités :
+
+    Chefs :
+    Classe simplement composée de la clé étrangère référencant le Professeur chef de département
+    (le département dont il est chef a l'id de son chef aussi -> perte d'historique sur les anciens chefs.. à assumer ?)
+
+    
+    Créneaux : 
+    Sorte de blueprint d'un cours (permet aux élèves de choisir le créneau de leurs
+    cours sur une matière). ATTENTION ! Lié à une salle, solutions pour que le cours
+    puisse être déplacé de salle : 
+	- Ajouter en attribut (nullable) la clé de la salle (redondance, mais...)
+
+
+    Cours :
+    Cours hebdomadaire, un professeur peut y inscrire un commentaire
+
+
+    Cycles :
+    Les differents niveaux d'étude au sein d'un pôle, chaque pôle a un niveau individuel
+    (les élèves en cycle spé Jazz peuvent être en Cycle 2 classique etc..)
+
+   

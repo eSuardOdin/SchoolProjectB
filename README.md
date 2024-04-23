@@ -168,3 +168,12 @@ Enfin, l'élève étant promu du cycle de dernier rang de son département pourr
 ### Attention :
 
 Il faut rajouter un nb max d'élève par cours (par exemple un seul pour les cours d'instrument). Si le max est 0, pas de limite (déjà limité par le nombre de places par cycle)
+
+
+
+
+# à implémenter
+
+- Possibilité de créer un compte élève
+- Ajouter / Enlever des matières pour le chef
+- 

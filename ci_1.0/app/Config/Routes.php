@@ -48,6 +48,10 @@ $routes->post('inscription/validation', [InscriptionController::class, 'inscrire
  * Routes chef département
  */
 $routes->get('cours', [CoursController::class, 'index']);
+$routes->post('cours', [CoursController::class, 'index']);
+$routes->post('cours/add_matière', [CoursController::class, 'show_matière_form']);
+$routes->post('cours/cours/add_matière/traitement', [CoursController::class, 'traiter_ajout_matière']);
+
 $routes->get('eleve', [CoursController::class, 'index']);
 // Voir les demandes
 $routes->get('demandes', [InscriptionController::class, 'afficher_demandes']);
