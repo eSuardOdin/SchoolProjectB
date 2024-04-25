@@ -22,7 +22,14 @@
                 const res = xhttp.responseText.substring(0, xhttp.responseText.indexOf('<')-1);
                 // console.log(xhttp.responseText);
                 const matières = JSON.parse(res);
-                console.log(matières);
+                var select_matières = document.getElementById('matière');
+                select_matières.innerHTML = null;
+                matières.forEach(element => {
+                    var el = document.createElement('option');
+                    el.value = element.id_matière;
+                    el.innerText = element.nom_matière;
+                    select_matières.appendChild(el)
+                });
             }
             else
             {
