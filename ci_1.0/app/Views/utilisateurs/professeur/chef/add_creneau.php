@@ -1,6 +1,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const cycles = document.getElementById('cycles');
+        getMatières(cycles.value);
         cycles.addEventListener('change', () => {
             getMatières(cycles.value);
         });
@@ -17,7 +18,11 @@
             {
                 // La requête a réussi
                 // const matières = JSON.parse(xhttp.responseText);
-                console.log(xhttp.responseText);
+                // console.log(matières);
+                const res = xhttp.responseText.substring(0, xhttp.responseText.indexOf('<')-1);
+                // console.log(xhttp.responseText);
+                const matières = JSON.parse(res);
+                console.log(matières);
             }
             else
             {
@@ -42,7 +47,11 @@
     }
     ?>
     </select>
-    <label for="matière"></label>
+    <label for="matière">Matière : </label>
+    <select id="matière" name="matière">
+    
+    </select>
+    </br>
     <label for="jour_créneau">Jour : </label>
     <select id="jour_créneau" name="jour_créneau" type="select">
         <option value="Lundi">Lundi</option>

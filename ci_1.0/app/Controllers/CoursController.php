@@ -142,7 +142,8 @@ class CoursController extends BaseController
     {
         $cycle_mod = new CycleModel();
         $matières = $cycle_mod->get_matières_cycle((int)$this->request->getVar('cycles'));
-        // echo json_encode($matières);
-        echo print_r($matières);
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($matières);
+        // echo print_r($matières);
     }
 }
