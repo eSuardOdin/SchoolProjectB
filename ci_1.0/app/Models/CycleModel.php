@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Models;
-
 use CodeIgniter\Model;
 class CycleModel extends Model
 {
@@ -16,4 +14,13 @@ class CycleModel extends Model
     ];
     protected $returnType     = \App\Entities\Cycle::class;
     
+    public function get_matières_cycle($id_cycle)
+    {
+        // Get les cycles du département
+        $matières = $this->db->table('Matières')
+        ->where('id_cycle', $id_cycle)
+        ->get()
+        ->getResult();
+        return $matières;
+    }
 }

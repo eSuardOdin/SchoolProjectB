@@ -273,4 +273,5 @@ class InscriptionController extends BaseController
         echo $res;
     }
 
+
 }

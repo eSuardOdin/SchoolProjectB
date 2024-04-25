@@ -47,10 +47,12 @@ $routes->post('inscription/validation', [InscriptionController::class, 'inscrire
 /* 
  * Routes chef département
  */
+$routes->get('show_matières', [CoursController::class, 'show_matières']);
 $routes->get('cours', [CoursController::class, 'index']);
 $routes->post('cours', [CoursController::class, 'index']);
 $routes->post('cours/add_matière', [CoursController::class, 'show_matière_form']);
 $routes->post('cours/add_matière/traitement', [CoursController::class, 'traiter_ajout_matière']);
+$routes->post('cours/créer_créneau', [CoursController::class, 'show_creneau_form']);
 
 $routes->get('eleve', [CoursController::class, 'index']);
 // Voir les demandes

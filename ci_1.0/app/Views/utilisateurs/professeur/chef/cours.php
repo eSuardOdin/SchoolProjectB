@@ -1,6 +1,11 @@
 <h1>Menu cours chef</h1>
 <br/>
-<br/>
+
+<form method="post" action="/cours/créer_créneau">
+    <input type="submit" value="Créer un créneau"/>
+</form>
+
+
 <?php
 echo '
     <form method="post" action="/cours/add_matière">

@@ -24,9 +24,6 @@ class MatièreModel extends Model{
         ->getRow();
     }
 
-    // Insertion d'une matière dans la db
-    
-    public function insert_matière(){}
 
     // Get les matières d'un département
     public function get_matières_département($id_dep)
