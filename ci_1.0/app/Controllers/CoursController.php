@@ -107,6 +107,7 @@ class CoursController extends BaseController
     }
 
 
+    // Montre le formulaire de création de créneau
     public function show_creneau_form()
     {
         $session = session();
@@ -144,6 +145,55 @@ class CoursController extends BaseController
         $matières = $cycle_mod->get_matières_cycle((int)$this->request->getVar('cycles'));
         header('Content-Type: application/json; charset=utf-8');
         echo json_encode($matières);
-        // echo print_r($matières);
+    }
+
+    // Return les options de choix de créneau
+    public function show_horaires()
+    {
+        $durée = (int)$this->request->getVar('durée');
+        if($durée == -1) return;
+        // Get les heures et les minutes
+        $h = intval($durée / 60);
+        $m = intval($durée % 60);
+        $creneaux = [];
+        // Fin du dernier cours à 17h, on set la dernière heure possible du créneau
+        $limite_h = $m == 0 ? 17 - $h : 16 - $h;
+        $minutes = [];
+        // Set des minutes
+        if($m > 0 && $m <= 15)
+        {
+            $minutes = [0, 15, 30, 45];
+        }
+        elseif($m > 15 && $m <= 30)
+        {
+            $minutes = [0, 15, 30];
+        }
+        elseif($m > 30 && $m <= 45)
+        {
+            $minutes = [0, 15];
+        }
+        else
+        {
+            $minutes = [0];
+        }
+        // Remplissage des heures / minutes possibles ({[heure: n, minutes: [0, 15, 30, 45]]})
+        for($i = 8; $i <= $limite_h; $i++)
+        {
+            if($i != $limite_h)
+            {
+                array_push($creneaux, [
+                    "heure" => $i,
+                    "minutes" => [0, 15, 30, 45] 
+                ]);
+            }
+            else
+            {
+                array_push($creneaux, [
+                    "heure" => $i,
+                    "minutes" => $minutes 
+                ]);
+            }
+        }
+        echo json_encode($creneaux);
     }
 }
