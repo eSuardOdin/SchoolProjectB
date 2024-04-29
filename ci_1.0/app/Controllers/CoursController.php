@@ -196,4 +196,9 @@ class CoursController extends BaseController
         }
         echo json_encode($creneaux);
     }
+
+    public function show_profs()
+    {
+        echo json_encode(["id" => $this->request->getVar("id_matière"), "durée" => $this->request->getVar("durée")]);
+    }
 }

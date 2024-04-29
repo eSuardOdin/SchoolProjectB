@@ -4,23 +4,47 @@
         // Au changement de cycle, on MAJ les matières
         const cycles = document.getElementById('cycles');
         const matière = document.getElementById('matière');
+        const heure_créneau = document.getElementById('heure_créneau');
         await getMatières(cycles.value);
         // Debug
         console.log("value : " + matière.value);
         console.log("durée : " + matière.value.substring(matière.value.indexOf('-')+1));
         getHoraires(matière.value.substring(matière.value.indexOf('-')+1));
         
+        // Obtenir la liste des matières liées au cycle
         cycles.addEventListener('change', () => {
             getMatières(cycles.value);
         });
+        // Obtenir les créneaux de début possibles d'une matière (sans prise en compte de cours déjà pris)
         matière.addEventListener('change', () => {
             console.log("durée : " + matière.value.substring(matière.value.indexOf('-')+1));
             getHoraires(matière.value.substring(matière.value.indexOf('-')+1));
         });
+        // Obtenir les profs disponibles (pour l'instant, tous les profs qui enseignent la matière)
+        heure_créneau.addEventListener('change', () => {
+            if(matière.value != '-0' && heure_créneau.value != '-0')
+            {
+                var val = matière.value;
+                getProfesseurs(
+                    val.substring(0, val.indexOf('-')), val.substring(val.indexOf('-'))
+                );
+            }
+        });
+        matière.addEventListener('change', () => {
+            if(matière.value != '-0' && heure_créneau.value != '-0')
+            {
+                var val = matière.value;
+                getProfesseurs(
+                    val.substring(0, val.indexOf('-')), val.substring(val.indexOf('-'))
+                );
+            }
+        });
     });
     
 
-    // Mise a jour des options du select des matières
+    /**
+     * Mise à jour des options du select de la matière à ajouter (par rapport au cycle choisi)
+     */
     async function getMatières(id_cycle)
     {
         const xhttp = new XMLHttpRequest();
@@ -56,8 +80,12 @@
         xhttp.send();
     }
 
-    // Avoir le temps d'une matière et adapter le select des horaires
-    // Ajout des valeurs de créneaux
+    /**
+     * 
+     * Affiche dans le formulaire les options des horaires possibles
+     * d'un début de créneau.
+     * Attention : Ne prend pas en compte les salles et professeurs libres
+     */
     function getHoraires(durée)
     {
         const xhttp = new XMLHttpRequest();
@@ -74,7 +102,7 @@
                         var res = xhttp.responseText.substring(0, xhttp.responseText.indexOf("<") - 1);
                         var c = JSON.parse(res);
                         console.log(c);
-                        const creneaux = document.getElementById('créneau');
+                        const creneaux = document.getElementById('heure_créneau');
                         // Les ajouter dans le select
                         c.forEach(element => {
                             var heure = element.heure;
@@ -100,13 +128,31 @@
         // Si choix de matière non valide, on vide les options de créneaux
         else
         {
-            const creneaux = document.getElementById('créneau');
+            const creneaux = document.getElementById('heure_créneau');
             creneaux.innerHTML = '<option value="-0">-----</option>';
-
         }
     }
 
 
+    function getProfesseurs(id_matière, durée)
+    {
+        const xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "/show_profs?id_matière="+id_matière+"&durée="+durée);
+        xhttp.onload = function() {
+            if(xhttp.status >=200 && xhttp.status < 300)
+            {
+                // La requête a réussi
+                var res = xhttp.responseText.substring(0, xhttp.responseText.indexOf("<") - 1);
+                var c = JSON.parse(res);
+                console.log(c);
+            }
+            else
+            {
+                console.log("La requête a échoué avec le statut " + xhttp.status);
+            }
+        };
+        xhttp.send()
+    }
 
     // Afficher les salles libres pour le créneau et valider ou non
 
@@ -142,15 +188,10 @@
         <option value="Vendredi">Vendredi</option>
     </select>
     <label for="heure_créneau">Horaire de début : </label>
-    <select id="créneau" name="créneau">
+    <select id="heure_créneau" name="heure_créneau">
         <option value="-0">-----</option>
     </select>
-    <!-- <button id='show'/> -->
     <br/>
-
-    
-    <!-- <label for="id_cycle">Cycle de la matière: </label>
-    <select id="id_cycle" name="id_cycle"> -->
 </form>
 <?php
 $session->remove('cycles');
