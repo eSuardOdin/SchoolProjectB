@@ -26,7 +26,7 @@
             {
                 var val = matière.value;
                 getProfesseurs(
-                    val.substring(0, val.indexOf('-')), val.substring(val.indexOf('-'))
+                    val.substring(0, val.indexOf('-')), val.substring(val.indexOf('-')+1)
                 );
             }
         });
@@ -35,7 +35,7 @@
             {
                 var val = matière.value;
                 getProfesseurs(
-                    val.substring(0, val.indexOf('-')), val.substring(val.indexOf('-'))
+                    val.substring(0, val.indexOf('-')), val.substring(val.indexOf('-')+1)
                 );
             }
         });

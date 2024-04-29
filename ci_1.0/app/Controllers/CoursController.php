@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use App\Entities\Matière;
 use App\Models\DépartementModel;
+use App\Models\ProfesseurModel;
 use CodeIgniter\Controller;
 use App\Models\ChefModel;
 use App\Models\MatièreModel;
@@ -199,6 +200,8 @@ class CoursController extends BaseController
 
     public function show_profs()
     {
-        echo json_encode(["id" => $this->request->getVar("id_matière"), "durée" => $this->request->getVar("durée")]);
+        $prof_model = new ProfesseurModel();
+        // echo json_encode(["id" => $this->request->getVar("id_matière"), "durée" => $this->request->getVar("durée")]);
+        echo json_encode($prof_model->get_professeur_from_matière($this->request->getVar("id_matière")));
     }
 }
