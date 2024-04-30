@@ -20,6 +20,9 @@ class InscriptionController extends BaseController
 {
     public function index() 
     {
+        helper('url');
+
+
         // Si l'utilisateur est déjà connecté, retour au menu
         $session = session();
         if($session->has('user_data'))
@@ -43,7 +46,46 @@ class InscriptionController extends BaseController
         return view('inscription/utilisateur');
     }
 
+    /**
+     * Inscription de l'utilisateur 
+     */
+    public function inscrire_utilisateur()
+    {
+        $nom = $this->request->getVar("nom");
+        $prenom = $this->request->getVar("prénom");
+        $login = $this->request->getVar("login");
+        $pwd = $this->request->getVar("pwd");
+        $idInstrument = $this->request->getVar("instrument_id");
+        $data = [
+            'nom_utilisateur' => $nom,
+            'prénom_utilisateur' => $prenom,
+            'login_utilisateur' => $login,
+            'pwd_utilisateur' => $pwd,
+            'id_instrument' => $idInstrument
+        ];
+        // Insertion user et élève
+        $new_user_id = model(UtilisateurModel::class)->insert($data);
+        $data_eleve = [
+            "id_élève" => $new_user_id
+        ];
+        $eleve_id = model(EleveModel::class)->insert($data_eleve);
 
+        // Get les data élève
+        $user = model(UtilisateurModel::class)->find($eleve_id);
+
+        echo '<pre>';
+        echo print_r($user);
+        echo '</pre>';
+
+        // Redirection vers le login controller
+        $session = session();
+        $data = [
+            'login' => $login,
+            'password' => $pwd
+        ];
+        $session->set('identifiants', $data);
+        return redirect()->to('login');
+    }
 
 
     /**
@@ -244,7 +286,10 @@ class InscriptionController extends BaseController
         }
     }
 
-
+    /**
+     * Renvoie la liste des instruments de la famille reçue en post
+     * pour pouvoir l'afficher dans le formulaire d'inscription.
+     */
     public function get_instruments()
     {
         // Get la famille
@@ -273,5 +318,12 @@ class InscriptionController extends BaseController
         echo $res;
     }
 
-
+    public function check_login()
+    {
+        $login = $this->request->getVar("login");
+        $loginDb = model(UtilisateurModel::class)->get_by_login($login);
+        if($loginDb != null) {
+            echo "1";
+        }
+    }
 }

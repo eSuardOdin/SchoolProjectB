@@ -17,6 +17,7 @@ use App\Controllers\InscriptionController;
 $routes->get('/', [LoginController::class, 'index']);
 // Connexion check
 $routes->post('login', [LoginController::class, 'authenticate']);
+$routes->get('login', [LoginController::class, 'authenticate']);
 // Déconnexion
 $routes->post('logout', [LoginController::class, 'logout']);
 // Menu principal
@@ -25,8 +26,11 @@ $routes->get('menu', [MenuController::class, 'index']);
 $routes->get('planning', [PlanningController::class, 'index']);
 // Inscription (élève)
 $routes->get('inscription', [InscriptionController::class, 'index']);
+$routes->post('inscription/utilisateur', [InscriptionController::class, 'inscrire_utilisateur']);
 // Get les choix d'instrument (AJAX inscription élève)
 $routes->post('inscription/get_instruments', [InscriptionController::class, 'get_instruments']);
+// Check la non duplication du login (AJAX inscription élève)
+$routes->post('inscription/check_login', [InscriptionController::class, 'check_login']);
 /*
  * Routes élève
  */

@@ -11,9 +11,19 @@ class UtilisateurModel extends Model{
         'nom_utilisateur',
         'prénom_utilisateur',
         'pwd_utilisateur',
+        'login_utilisateur',
+        'id_instrument'
     ];
 
     protected $useAutoIncrement = true;
     protected $returnType     = \App\Entities\Utilisateur::class;
-    protected bool $allowEmptyInserts = false; 
+    protected bool $allowEmptyInserts = false;
+
+    public function get_by_login($login)
+    {
+        return $this->db->table('Utilisateurs')
+        ->where('login_utilisateur', $login)
+        ->get()
+        ->getRowArray();
+    }
 }
