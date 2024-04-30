@@ -109,10 +109,10 @@
                             var minutes = element.minutes;
                             minutes.forEach(m => {
                                 var el = document.createElement("option");
-                                el.value = heure + "h" + m;
                                 // Append un 0 si heure pile
                                 m = m == 0 ? "00" : m; // C'est degueulasse mais c'est js
                                 el.innerText = heure + "h" + m;
+                                el.value = heure + ":" + m + ":00";
                                 creneaux.appendChild(el);
                             });
                         });
@@ -181,11 +181,11 @@
     </br></br>
     <label for="jour_créneau">Jour : </label>
     <select id="jour_créneau" name="jour_créneau" type="select">
-        <option value="Lundi">Lundi</option>
-        <option value="Mardi">Mardi</option>
-        <option value="Mercredi">Mercredi</option>
-        <option value="Jeudi">Jeudi</option>
-        <option value="Vendredi">Vendredi</option>
+        <option value="0">Lundi</option>
+        <option value="1">Mardi</option>
+        <option value="2">Mercredi</option>
+        <option value="3">Jeudi</option>
+        <option value="4">Vendredi</option>
     </select>
     <label for="heure_créneau">Horaire de début : </label>
     <select id="heure_créneau" name="heure_créneau">

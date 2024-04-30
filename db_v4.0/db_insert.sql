@@ -265,3 +265,33 @@ FROM (Utilisateurs AS U
 INNER JOIN (Cycles AS C 
             INNER JOIN Elèves_Cycles AS EC ON C.id_cycle = EC.id_cycle) 
 ON E.id_élève = EC.id_élève;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###########################
+Test insert créneaux
+INSERT INTO Créneaux(jour_créneau, début_créneau, id_salle, id_matière, id_professeur) VALUES (0, "10:00:00", 7, 19, 4);

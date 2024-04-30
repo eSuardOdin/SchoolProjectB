@@ -28,4 +28,21 @@ class ProfesseurModel extends UtilisateurModel
         ->getResult();
     }
 
+    
+    /**
+     * 
+     * Vérifier si un prof est libre
+     * 
+     */
+    public function is_prof_free($id_prof, $h_debut, $durée)
+    {
+        // Get les créneaux durant lesquels un prof donne cours
+        $creneaux = $this->db->table('Créneaux')
+        ->where('id_professeur', $id_prof)
+        // ->where('début_créneau >= ' . )
+        ->get()
+        ->getResult();
+        return $creneaux;
+    } 
+
 }
