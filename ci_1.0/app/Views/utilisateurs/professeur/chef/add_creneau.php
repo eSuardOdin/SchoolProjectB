@@ -5,6 +5,7 @@
         const cycles = document.getElementById('cycles');
         const matière = document.getElementById('matière');
         const heure_créneau = document.getElementById('heure_créneau');
+        const jour_créneau = document.getElementById('jour_créneau');
         await getMatières(cycles.value);
         // Debug
         console.log("value : " + matière.value);
@@ -137,7 +138,7 @@
     function getProfesseurs(id_matière, durée)
     {
         const xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "/show_profs?id_matière="+id_matière+"&durée="+durée);
+        xhttp.open("GET", "/show_profs?id_matière="+id_matière+"&durée="+durée+"&h_début="+heure_créneau.value+"&jour="+jour_créneau.value);
         xhttp.onload = function() {
             if(xhttp.status >=200 && xhttp.status < 300)
             {
