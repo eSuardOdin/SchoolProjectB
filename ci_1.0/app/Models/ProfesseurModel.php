@@ -48,4 +48,32 @@ class ProfesseurModel extends UtilisateurModel
         return $creneaux;
     }
 
+    /**
+     * 
+     * Get les professeurs libres sur un créneau
+     * qui enseinent la matière souhaitée
+     * 
+     */
+    public function get_free_profs($h_debut, $durée, $jour, $id_matière)
+    {
+        $h_fin = date('H:i:s', strtotime($h_debut) + $durée * 60);
+        // Get les profs qui donnent déjà cours sur le créneau
+        $busy = $this->db->table('Créneaux')
+        ->select('id_professeur')
+        ->where('jour_créneau = ' . $jour)
+        ->where('((début_créneau < "'.$h_fin.'" AND "'.$h_debut.'" < fin_créneau) OR ("'.$h_debut.'" < fin_créneau AND début_créneau < "'.$h_fin.'"))');
+
+        // Get les profs libres qui enseignent la bonne matière
+        $idle = $this->db->table('Matières_Professeurs')
+        ->select('id_professeur')
+        ->where('id_matière', $id_matière)
+        ->whereNotIn('id_professeur', $busy);
+
+        // Get les professeurs correspondant
+        return $this->db->table('Utilisateurs')
+        ->whereIn('id_utilisateur', $idle)
+        ->get()
+        ->getResult();
+    }
+
 }
