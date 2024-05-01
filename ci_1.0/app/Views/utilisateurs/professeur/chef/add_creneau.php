@@ -202,9 +202,18 @@
         <option value="-0">-----</option>
     </select>
     <br/>
+    <br/>
+    <input type="submit" disabled id="créer_créneau" name="créer_créneau" value="Créer"/>
+    <p id="err_msg"></p>
 </form>
 <?php
 $session->remove('cycles');
 
 ?>
-    
+
+<!-- 
+    Il reste à :
+        - Afficher les profs disponibles
+        - Afficher les salles disponibles
+
+ -->

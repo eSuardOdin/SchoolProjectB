@@ -46,6 +46,6 @@ class ProfesseurModel extends UtilisateurModel
         ->getResult();
         
         return $creneaux;
-    } 
+    }
 
 }

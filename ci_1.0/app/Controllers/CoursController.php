@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Entities\Matière;
 use App\Models\DépartementModel;
 use App\Models\ProfesseurModel;
+use App\Models\SalleModel;
 use CodeIgniter\Controller;
 use App\Models\ChefModel;
 use App\Models\MatièreModel;
@@ -201,6 +202,7 @@ class CoursController extends BaseController
     public function show_profs()
     {
         $prof_model = new ProfesseurModel();
+        $salle_model = new SalleModel();
         // echo json_encode(["id" => $this->request->getVar("id_matière"), "durée" => $this->request->getVar("durée")]);
         
         // echo json_encode($prof_model->get_professeur_from_matière($this->request->getVar("id_matière")));
@@ -210,6 +212,7 @@ class CoursController extends BaseController
         $jour = $this->request->getVar("jour");
         foreach ($prof_model->get_professeur_from_matière($this->request->getVar("id_matière")) as $p) {
             array_push($test, $prof_model->is_prof_free($p->id_professeur, $h_debut, $durée, $jour));
+            array_push($test, $salle_model->get_used_salles($h_debut, $durée, $jour));
         }
         echo json_encode($test);
     }
