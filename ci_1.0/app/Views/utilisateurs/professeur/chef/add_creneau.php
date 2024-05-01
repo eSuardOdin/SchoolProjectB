@@ -1,17 +1,15 @@
 <script>
-    // On lance la recherche de matières liées au cycle
     document.addEventListener('DOMContentLoaded', async function() {
-        // Au changement de cycle, on MAJ les matières
+        // ** --------- Variables du formulaire --------- **
         const cycles = document.getElementById('cycles');
         const matière = document.getElementById('matière');
         const heure_créneau = document.getElementById('heure_créneau');
         const jour_créneau = document.getElementById('jour_créneau');
+        // On lance la recherche de matières liées au cycle
         await getMatières(cycles.value);
-        // Debug
-        console.log("value : " + matière.value);
-        console.log("durée : " + matière.value.substring(matière.value.indexOf('-')+1));
         getHoraires(matière.value.substring(matière.value.indexOf('-')+1));
         
+        // ** --------- Event listeners --------- **
         // Obtenir la liste des matières liées au cycle
         cycles.addEventListener('change', () => {
             getMatières(cycles.value);
@@ -31,6 +29,17 @@
                 );
             }
         });
+        jour_créneau.addEventListener('change', () => {
+            if(matière.value != '-0' && heure_créneau.value != '-0')
+            {
+                var val = matière.value;
+                getProfesseurs(
+                    val.substring(0, val.indexOf('-')), val.substring(val.indexOf('-')+1)
+                );
+            }
+        });
+
+
         matière.addEventListener('change', () => {
             if(matière.value != '-0' && heure_créneau.value != '-0')
             {
