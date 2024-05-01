@@ -212,7 +212,7 @@ class CoursController extends BaseController
         $jour = $this->request->getVar("jour");
         foreach ($prof_model->get_professeur_from_matière($this->request->getVar("id_matière")) as $p) {
             array_push($test, $prof_model->is_prof_free($p->id_professeur, $h_debut, $durée, $jour));
-            array_push($test, $salle_model->get_used_salles($h_debut, $durée, $jour));
+            array_push($test, $salle_model->get_unused_salles($h_debut, $durée, $jour));
         }
         echo json_encode($test);
     }
