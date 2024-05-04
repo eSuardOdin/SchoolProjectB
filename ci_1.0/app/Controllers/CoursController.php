@@ -2,12 +2,14 @@
 namespace App\Controllers;
 
 use App\Entities\Matière;
+use App\Entities\Créneau;
 use App\Models\DépartementModel;
 use App\Models\ProfesseurModel;
 use App\Models\SalleModel;
 use CodeIgniter\Controller;
 use App\Models\ChefModel;
 use App\Models\MatièreModel;
+use App\Models\CréneauModel;
 use App\Models\CycleModel;
 
 
@@ -138,6 +140,28 @@ class CoursController extends BaseController
             // Rediriger si rôle non valide 
             else { return redirect('menu'); }
         }
+    }
+
+    // Traitement de l'ajout d'un créneau
+    public function traiter_ajout_créneau()
+    {
+        
+        $créneau_model = new CréneauModel();
+        // Create
+        $créneau = new Créneau();
+        $matière = explode("-", $this->request->getVar('matière'));
+        $durée = $matière[1];
+        $heure_fin = date('H:i:s', strtotime($this->request->getVar('heure_créneau')) + $durée * 60);
+        $créneau->id_matière = $matière[0];
+        $créneau->fin_créneau = $heure_fin;
+        $créneau->début_créneau = $this->request->getVar('heure_créneau');
+        $créneau->jour_créneau = $this->request->getVar('jour_créneau');
+        $créneau->id_salle = $this->request->getVar('salle');
+        $créneau->id_professeur = $this->request->getVar('professeur');
+        
+        // Sauvegarde de la matière
+        $créneau_model->save($créneau);
+        return redirect('cours');
     }
     
     // Return les matières d'un cycle

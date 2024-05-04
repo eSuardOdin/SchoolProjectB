@@ -241,7 +241,7 @@
 <form method="post" action="/cours">
     <input type="submit" value="Retour"/>
 </form>
-<form method="post" action="/cours/add_matière/traitement" id="creneau_form">
+<form method="post" action="/cours/créer_créneau/traitement" id="creneau_form">
     <select id="cycles">
     <?php
     // Session

@@ -60,6 +60,8 @@ $routes->post('cours/créer_créneau', [CoursController::class, 'show_creneau_fo
 $routes->get('show_matières', [CoursController::class, 'show_matières']);
 $routes->get('show_horaires', [CoursController::class, 'show_horaires']);
 $routes->get('show_profs', [CoursController::class, 'show_profs']);
+$routes->post('cours/créer_créneau/traitement', [CoursController::class, 'traiter_ajout_créneau']);
+
 
 $routes->get('eleve', [CoursController::class, 'index']);
 // Voir les demandes
