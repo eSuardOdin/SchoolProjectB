@@ -258,17 +258,30 @@ class InscriptionController extends BaseController
 
     public function traiter_demande()
     {
+        // Init de la variable de résultat d'action
+        $resultat = [
+            "adresse" => $_SERVER['HTTP_REFERER'],
+            "message" => ""
+        ];
         $idCycle = $this->request->getVar('id_cycle');
         $idEleve = $this->request->getVar('id_élève');
-        echo 'Elève : ' . $idEleve . ' Cycle : ' . $idCycle;
-        echo '<br/>';
-        echo 'Action : ' . $this->request->getVar('action');
+
 
         $action = $this->request->getVar('action');
         $model = model(Model::class);
+        $nomElève = ($model->db->table('Utilisateurs')
+            ->where('id_utilisateur = ' . $idEleve)
+            ->get()
+            ->getResult())[0]->nom_utilisateur;
+        $nomCycle = ($model->db->table('Cycles')
+            ->where('id_cycle = ' . $idCycle)
+            ->get()
+            ->getResult())[0]->nom_cycle;
+
         // Accepter élève (update demande et inscrit)
         if($action === "Accepter")
         {
+            // todo traitement d'erreur
             $model->db->table('Elèves_Cycles')
             ->where('id_cycle = ' . $idCycle . ' AND `id_élève` = ' . $idEleve)
             ->set([
@@ -276,6 +289,7 @@ class InscriptionController extends BaseController
                 'inscrit_cycle' => true
             ])
             ->update();
+            $resultat["message"] = "L'élève " . $nomElève . " a été inscrit en " . $nomCycle;
         }
         // Refuser (supprimer l'entrée, faute de mieux pour le moment)
         else
@@ -283,7 +297,10 @@ class InscriptionController extends BaseController
             $model->db->table('Elèves_Cycles')
             ->where('id_cycle = ' . $idCycle . ' AND `id_élève` = ' . $idEleve)
             ->delete();
+            $resultat["message"] = "L'élève " . $nomElève . " a été réfusé en " . $nomCycle;
         }
+
+        echo $resultat["message"];
     }
 
     /**
