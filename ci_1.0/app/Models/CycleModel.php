@@ -23,4 +23,12 @@ class CycleModel extends Model
         ->getResult();
         return $matières;
     }
+
+    public function get_cycles_departement($idDep)
+    {
+        return $this->db->table('Cycles')
+        ->where('id_département = ' . $idDep)
+        ->get()
+        ->getResult();
+    }
 }

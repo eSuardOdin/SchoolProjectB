@@ -73,9 +73,6 @@ class InscriptionController extends BaseController
         // Get les data élève
         $user = model(UtilisateurModel::class)->find($eleve_id);
 
-        echo '<pre>';
-        echo print_r($user);
-        echo '</pre>';
 
         // Redirection vers le login controller
         $session = session();
@@ -300,7 +297,10 @@ class InscriptionController extends BaseController
             $resultat["message"] = "L'élève " . $nomElève . " a été réfusé en " . $nomCycle;
         }
 
-        echo $resultat["message"];
+        // echo $resultat["message"];
+
+        session()->set('action_result', $resultat);
+        return view('resultat_action');
     }
 
     /**

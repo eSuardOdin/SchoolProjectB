@@ -25,4 +25,18 @@ class EleveModel extends UtilisateurModel
         $this->db->table('Elèves_Cycles')
         ->insert($data);
     }
+
+    // Get tous les élèves d'un cycle
+    public function get_élèves_by_cycle(int $cycleId) : ?array
+    {
+        $userModel = model(UtilisateurModel::class);
+        $subQuery = $userModel->db->table('Elèves_Cycles')
+        ->select('id_élève')
+        ->where('id_cycle = ' . $cycleId);
+
+        return $userModel->db->table('Utilisateurs')
+        ->whereIn('id_utilisateur', $subQuery)
+        ->get()
+        ->getResult();
+    }
 }

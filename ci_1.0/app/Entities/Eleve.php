@@ -97,5 +97,8 @@ class Eleve extends Utilisateur
         ->where('demande_cycle', true)
         ->get()
         ->getRowArray();
-    } 
+    }
+
+
+    
 }

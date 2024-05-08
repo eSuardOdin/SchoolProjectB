@@ -11,11 +11,11 @@ class PlanningController extends BaseController
     {
         log_message('info', 'Entrée dans la gestion du logged test');
         $session = session();
-        if(!$session->has('logged_user'))
+        if(!$session->has('user_data'))
         {
             return false;
         }
-        elseif($session->get('logged_user') === null)
+        elseif($session->get('user_data') === null)
         {
             return false;
         }
@@ -35,7 +35,7 @@ class PlanningController extends BaseController
         {
             log_message('info', 'Entrée dans la gestion du planning');
             // Rediriger en fonction du rôle
-            $user = $session->get('logged_user');
+            $user = $session->get('user_data');
             if($user['role'] === 'professeur')
             {
                 return view('utilisateurs/professeur/planning');
