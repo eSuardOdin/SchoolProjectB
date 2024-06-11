@@ -2,6 +2,7 @@
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
+use App\Models\CréneauModel;
 class PlanningController extends BaseController
 {
 
@@ -27,6 +28,7 @@ class PlanningController extends BaseController
     public function index()
     {
         $session = session();
+        $creneauModel = model(CréneauModel::class);
         // Check si l'user est bien connecté
         if(!$this->check_logged())
         {
@@ -38,6 +40,10 @@ class PlanningController extends BaseController
             $user = $session->get('user_data');
             if($user['role'] === 'professeur')
             {
+                $creneaux = $creneauModel->get_creneaux_from_prof($user['id_utilisateur']);
+                echo '<pre>';
+                echo var_dump($creneaux);
+                echo '</pre>';
                 return view('utilisateurs/professeur/planning');
             }
             elseif($user['role'] === 'élève')

@@ -191,16 +191,29 @@ class InscriptionController extends BaseController
 
         // Get le cycle suivant
         $cycleEnfant = $cycleModel->get_cycle_enfant($session->get('user_data')['élève']['cycle']['id_cycle']);
-
-        // Savoir le statut du cycle suivant (si null, pas de demande effectuée)
-        $idCycleEnfant = $cycleEnfant['0']->id_cycle;
-        // $cycleEleve = $eleveModel->get_statut_promotion($idCycleEnfant, $session->get('user_data')['id_utilisateur']);
-
-        $cycleSession = array(
-            "id" => $idCycleEnfant,
-            "nom" => $cycleEnfant['0']->nom_cycle,
-            "statut" => $eleveCycleModel->findInscription($idCycleEnfant, $session->get('user_data')['id_utilisateur'])?->demande_cycle
-        );
+        $cycleSession = array();
+        // Savoir le statut du cycle suivant (si vide, pas de demande effectuée)
+        $idCycleEnfant = -1;
+        if(!empty($cycleEnfant))
+        {
+            $idCycleEnfant = $cycleEnfant['0']->id_cycle;
+            // $cycleEleve = $eleveModel->get_statut_promotion($idCycleEnfant, $session->get('user_data')['id_utilisateur']);
+            
+            $cycleEleve = $eleveCycleModel->findInscription($idCycleEnfant, $session->get('user_data')['id_utilisateur']);
+            $cycleSession = array(
+                "id" => $idCycleEnfant,
+                "nom" => $cycleEnfant['0']->nom_cycle,
+                "statut" => $cycleEleve != null ? $cycleEleve->demande_cycle : false
+            );
+        }
+        else
+        {
+            $cycleSession = array(
+                "id" => $session->get('user_data')['élève']['cycle']['id_cycle'],
+                "nom" => "Diplome",
+                "statut" => false
+            );
+        }
         
         
         /* Ajouter le statut à la session
@@ -245,13 +258,22 @@ class InscriptionController extends BaseController
             // Get l'entity Cycle
             $idCycle = (int)$demande['id_cycle'];
             $cycle = model(CycleModel::class)->find($idCycle);
-            // Nom
-            $nomCycle = $cycle->get_nom_cycle();
+            // Check si demande = passage diplome
+            if($demande['inscrit_cycle'])
+            {
+                // Nom
+                $nomCycle = "Passage du DEM";
+            }
+            else
+            {
+                // Nom
+                $nomCycle = $cycle->get_nom_cycle();
+                // Places
+                $placeCycle = $cycle->get_places_cycle();
+                $res[$demande['id_cycle']]['places_restantes'] = $placeCycle;
+            }
             $res[$demande['id_cycle']]['id_cycle'] = $idCycle; // Redondant... à améliorer
             $res[$demande['id_cycle']]['nom_cycle'] = $nomCycle;
-            // Places
-            $placeCycle = $cycle->get_places_cycle();
-            $res[$demande['id_cycle']]['places_restantes'] = $placeCycle;
             if(!isset($res[$demande['id_cycle']]['élèves']))
             {
                 // Elèves
@@ -299,7 +321,7 @@ class InscriptionController extends BaseController
         $idCycle = $this->request->getVar('id_cycle');
         $idEleve = $this->request->getVar('id_élève');
         $action = $this->request->getVar('action');
-
+        $isDiplome = $this->request->getVar('demande_diplome');
 
         $cycleModel = model(CycleModel::class);
         $eleveCycleModel = model(EleveCycleModel::class);
@@ -328,18 +350,34 @@ class InscriptionController extends BaseController
             // Si c'est une demande de promotion, on le desinscrit du cycle.
             if(!empty($currentCycle))
             {
-                $eleveCycleModel->updateInscription($currentCycle->id_cycle, $idEleve, ['inscrit_cycle' => false, 'promu_cycle' => true]); 
+                $eleveCycleModel->updateInscription($currentCycle->id_cycle, $idEleve, ['inscrit_cycle' => false, 'promu_cycle' => true]);
             }
-            $eleveCycleModel->updateInscription($idCycle, $idEleve, ['demande_cycle' => false, 'inscrit_cycle' => true]);
-            $resultat["message"] = "L'élève " . $nomElève . " a été inscrit en " . $nomCycle;
+            if(!$isDiplome)
+            {
+                $eleveCycleModel->updateInscription($idCycle, $idEleve, ['demande_cycle' => false, 'inscrit_cycle' => true]);
+                $resultat["message"] = "L'élève " . $nomElève . " a été inscrit en " . $nomCycle;
+            }
+            else
+            {
+                $eleveCycleModel->updateInscription($idCycle, $idEleve, ['demande_cycle' => false, 'inscrit_cycle' => true, 'promu_cycle' => true]);
+                $resultat["message"] = "L'élève " . $nomElève . " a passé son DEM avec succès ";
+            }
         }
         // Refuser (supprimer l'entrée, faute de mieux pour le moment)
         else
         {
-            $model->db->table('Elèves_Cycles')
-            ->where('id_cycle = ' . $idCycle . ' AND `id_élève` = ' . $idEleve)
-            ->delete();
-            $resultat["message"] = "L'élève " . $nomElève . " a été réfusé en " . $nomCycle;
+            if(!$isDiplome)
+            {
+                $model->db->table('Elèves_Cycles')
+                ->where('id_cycle = ' . $idCycle . ' AND `id_élève` = ' . $idEleve)
+                ->delete();
+                $resultat["message"] = "L'élève " . $nomElève . " a été réfusé en " . $nomCycle;
+            }
+            else
+            {
+                $eleveCycleModel->updateInscription($idCycle, $idEleve, ['demande_cycle' => false]);
+                $resultat["message"] = "L'élève " . $nomElève . " n'a pas réussi son DEM";
+            }
         }
 
         // echo $resultat["message"];
@@ -355,12 +393,21 @@ class InscriptionController extends BaseController
     public function demande_promotion()
     {
         $session = session();
-        $idCycle = $this->request->getVar('id_cycle');
+        $idCycleDemande = $this->request->getVar('id_cycle');
+        $idCycle= $session->get('user_data')['élève']['cycle']['id_cycle'];
         $idEleve = $session->get('user_data')['id_utilisateur'];
 
         $eleveCycleModel = model(EleveCycleModel::class);
-
-        $eleveCycleModel->creer_demande($idCycle, $idEleve);
+        
+        // Check que le cycle et le cycle de promotion demandé sont differents (sinon c'est le diplome)
+        if($idCycleDemande != $idCycle)
+        {
+            $eleveCycleModel->creer_demande($idCycleDemande, $idEleve);
+        }
+        else
+        {
+            $eleveCycleModel->updateInscription($idCycle, $idEleve, ['demande_cycle' => true]);
+        }
 
         return view('utilisateurs/menu');
     }

@@ -31,9 +31,13 @@ class EleveCycleModel extends Model
    // Méthode pour trouver une inscription par clé primaire composée
    public function findInscription($id_cycle, $id_eleve)
    {
-       return $this->where('id_cycle', $id_cycle)
-                   ->where('id_élève', $id_eleve)
-                   ->first();
+        if($id_cycle != -1)
+        {
+            return $this->where('id_cycle', $id_cycle)
+                        ->where('id_élève', $id_eleve)
+                        ->first();
+        }
+        return [];
    }
 
    public function findCurrent($id_eleve)
