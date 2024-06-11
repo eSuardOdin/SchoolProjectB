@@ -12,6 +12,7 @@
             <tr>
                 <td><a href="/">Menu</a></td>
                 <td><a href="/planning">Planning</a></td>
+                <td><a href="/cycle">Cycle</a></td>
             </tr>
         </table>
         ';

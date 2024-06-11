@@ -32,10 +32,21 @@ class EleveModel extends UtilisateurModel
         $userModel = model(UtilisateurModel::class);
         $subQuery = $userModel->db->table('Elèves_Cycles')
         ->select('id_élève')
-        ->where('id_cycle = ' . $cycleId);
+        ->where('id_cycle = ' . $cycleId)
+        ->where('inscrit_cycle', true);
 
         return $userModel->db->table('Utilisateurs')
         ->whereIn('id_utilisateur', $subQuery)
+        ->get()
+        ->getResult();
+    }
+
+    
+    public function get_statut_promotion($id_cycle, $id_eleve)
+    {
+        return $this->db->table('Elèves_Cycles')
+        ->where('id_cycle = ' . $id_cycle)
+        ->where('id_élève = ' . $id_eleve)
         ->get()
         ->getResult();
     }

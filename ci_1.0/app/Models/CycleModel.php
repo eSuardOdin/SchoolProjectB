@@ -9,7 +9,7 @@ class CycleModel extends Model
     protected $allowedFields = [
         'nom_cycle',
         'places_cycle',
-        'cycle_parent',
+        'cycle_enfant',
         'id_département'
     ];
     protected $returnType     = \App\Entities\Cycle::class;
@@ -28,6 +28,22 @@ class CycleModel extends Model
     {
         return $this->db->table('Cycles')
         ->where('id_département = ' . $idDep)
+        ->get()
+        ->getResult();
+    }
+
+
+    /**
+     * Return le cycle suivant le cycle en cours
+     */
+    public function get_cycle_enfant($idCycle)
+    {
+        $subQuery = $this->db->table('Cycles')
+        ->select('cycle_enfant')
+        ->where('id_cycle = ' . $idCycle);
+
+        return $this->db->table('Cycles')
+        ->whereIn('id_cycle', $subQuery)
         ->get()
         ->getResult();
     }

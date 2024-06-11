@@ -10,6 +10,7 @@ use App\Entities\Eleve;
 use App\Entities\Instrument;
 // Models
 use App\Models\CycleModel;
+use App\Models\EleveCycleModel;
 use App\Models\DépartementModel;
 use App\Models\EleveModel;
 use App\Models\UtilisateurModel;
@@ -138,7 +139,7 @@ class InscriptionController extends BaseController
         }
 
         // Get les cycles et les set session
-        $cycles =$dep->get_departement_cycles();
+        $cycles = $dep->get_departement_cycles();
         $session->set('cycles', $cycles);
 
         return view('inscription/cycles');
@@ -174,6 +175,41 @@ class InscriptionController extends BaseController
         // Set les infos sur la demande
         $session->set('demande', $cycle->get_nom_cycle() . ' (' . $departement . ')');
         return view('inscription/demande');
+    }
+
+    /**
+     * Voir les informations du cycle en cours d'un élève
+     * et de demander une promotion 
+     */
+    public function voir_cycle()
+    {
+        // Déclaration des models
+        $session = session();
+        $cycleModel = model(CycleModel::class);
+        $eleveModel = model(EleveModel::class);
+        $eleveCycleModel = model(EleveCycleModel::class);
+
+        // Get le cycle suivant
+        $cycleEnfant = $cycleModel->get_cycle_enfant($session->get('user_data')['élève']['cycle']['id_cycle']);
+
+        // Savoir le statut du cycle suivant (si null, pas de demande effectuée)
+        $idCycleEnfant = $cycleEnfant['0']->id_cycle;
+        // $cycleEleve = $eleveModel->get_statut_promotion($idCycleEnfant, $session->get('user_data')['id_utilisateur']);
+
+        $cycleSession = array(
+            "id" => $idCycleEnfant,
+            "nom" => $cycleEnfant['0']->nom_cycle,
+            "statut" => $eleveCycleModel->findInscription($idCycleEnfant, $session->get('user_data')['id_utilisateur'])?->demande_cycle
+        );
+        
+        
+        /* Ajouter le statut à la session
+        si null -> bouton de demande
+        sinon -> afficher "demande en cours pour le cycle [nom]
+        */
+        $session->set('promotion', $cycleSession);
+        
+        return view('utilisateurs/élève/cycle');
     }
 
 
@@ -262,10 +298,14 @@ class InscriptionController extends BaseController
         ];
         $idCycle = $this->request->getVar('id_cycle');
         $idEleve = $this->request->getVar('id_élève');
-
-
         $action = $this->request->getVar('action');
+
+
+        $cycleModel = model(CycleModel::class);
+        $eleveCycleModel = model(EleveCycleModel::class);
         $model = model(Model::class);
+        
+        
         $nomElève = ($model->db->table('Utilisateurs')
             ->where('id_utilisateur = ' . $idEleve)
             ->get()
@@ -275,17 +315,22 @@ class InscriptionController extends BaseController
             ->get()
             ->getResult())[0]->nom_cycle;
 
+        
+        // Chercher si la demande est une primo inscription ou promotion
+        $currentCycle = $eleveCycleModel->findCurrent($idEleve);
+
+
+
+
         // Accepter élève (update demande et inscrit)
         if($action === "Accepter")
         {
-            // todo traitement d'erreur
-            $model->db->table('Elèves_Cycles')
-            ->where('id_cycle = ' . $idCycle . ' AND `id_élève` = ' . $idEleve)
-            ->set([
-                'demande_cycle' => false,
-                'inscrit_cycle' => true
-            ])
-            ->update();
+            // Si c'est une demande de promotion, on le desinscrit du cycle.
+            if(!empty($currentCycle))
+            {
+                $eleveCycleModel->updateInscription($currentCycle->id_cycle, $idEleve, ['inscrit_cycle' => false, 'promu_cycle' => true]); 
+            }
+            $eleveCycleModel->updateInscription($idCycle, $idEleve, ['demande_cycle' => false, 'inscrit_cycle' => true]);
             $resultat["message"] = "L'élève " . $nomElève . " a été inscrit en " . $nomCycle;
         }
         // Refuser (supprimer l'entrée, faute de mieux pour le moment)
@@ -301,6 +346,23 @@ class InscriptionController extends BaseController
 
         session()->set('action_result', $resultat);
         return view('resultat_action');
+    }
+
+
+    /**
+     * Formule une demande de promotion d'élève
+     */
+    public function demande_promotion()
+    {
+        $session = session();
+        $idCycle = $this->request->getVar('id_cycle');
+        $idEleve = $session->get('user_data')['id_utilisateur'];
+
+        $eleveCycleModel = model(EleveCycleModel::class);
+
+        $eleveCycleModel->creer_demande($idCycle, $idEleve);
+
+        return view('utilisateurs/menu');
     }
 
     /**

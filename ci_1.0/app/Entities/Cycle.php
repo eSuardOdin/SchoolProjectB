@@ -26,7 +26,7 @@ class Cycle extends Entity
         $places_dispo = ($cycleModel->find($this->id_cycle))->attributes['places_cycle'];
 
         // Return la difference
-        return $places_dispo - $places_prises[0]['id_cycle'];
+        return (int)($places_dispo - $places_prises[0]['id_cycle']);
     }
 
 

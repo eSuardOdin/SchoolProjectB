@@ -39,10 +39,14 @@ $routes->post('inscription/check_login', [InscriptionController::class, 'check_l
 $routes->get('inscription/département', [InscriptionController::class, 'choix_département']);
 // Voir la demande d'inscription en cours
 $routes->get('inscription/demande/(:num)', [InscriptionController::class, 'voir_demande']);
+// Voir infos cycle et demande de promotion
+$routes->get('cycle', [InscriptionController::class, 'voir_cycle']);
 // Choisir un cycle pour lequel postuler
 $routes->post('inscription/cycles', [InscriptionController::class, 'choix_cycle']);
 // Validation de l'inscription
 $routes->post('inscription/validation', [InscriptionController::class, 'inscrire_eleve']);
+// Traiter une demande de promotion
+$routes->post('inscription/demande_promotion', [InscriptionController::class, 'demande_promotion']);
 
 /*
  * Routes professeur
